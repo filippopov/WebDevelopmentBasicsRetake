@@ -1,6 +1,8 @@
 <?php
 namespace MVC\Controllers;
 
+use MVC\BindingModels\Users\CreateUserBindingModel;
+use MVC\BindingModels\Users\LoginBindingModel;
 use MVC\Models\User;
 use MVC\View;
 use MVC\ViewModels\LoginInformation;
@@ -31,8 +33,11 @@ class UsersController extends BaseController
     private function initLogin($user, $pass)
     {
         $userModel = new User();
+        $model = new LoginBindingModel();
+        $model->setUsername($user);
+        $model->setPassword($pass);
 
-        $userId = $userModel->login($user, $pass);
+        $userId = $userModel->login($model);
         $_SESSION['id'] = $userId;
         header("Location: profile");
     }
@@ -47,7 +52,10 @@ class UsersController extends BaseController
                 $pass = $_POST['password'];
 
                 $userModel = new User();
-                $userModel->register($user, $pass);
+                $model = new CreateUserBindingModel();
+                $model->setUsername($user);
+                $model->setPassword($pass);
+                $userModel->register($model);
 
                 $this->initLogin($user, $pass);
             } catch (\Exception $e) {
@@ -117,11 +125,11 @@ class UsersController extends BaseController
     }
 
     /**
-     * @ROUTE(users/proba)
+     * @ROUTE(proba/proba)
      */
     public function test(){
 
-        echo("hidsffdsfdsfdsf");
+        echo("zdrasti");
     }
 
 

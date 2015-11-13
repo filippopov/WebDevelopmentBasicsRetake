@@ -1,18 +1,24 @@
 <?php
 namespace MVC\Models;
 
+use MVC\BindingModels\Users\CreateUserBindingModel;
+use MVC\BindingModels\Users\LoginBindingModel;
 use MVC\Core\Database;
 
 class User
 {
-    public function register($username, $password)
+    public function register(CreateUserBindingModel $model)
     {
-        var_dump($username);
-        var_dump($password);
+//        var_dump($username);
+//        var_dump($password);
         $db = Database::getInstance('app');
 
-        if ($this->exists($username)) {
+        if ($this->exists($model->getUsername())) {
             throw new \Exception("User already registered");
+        }
+
+        if(!$model->isValid()){
+            throw new \Exception("Username and password must be at least 5 symbols long");
         }
 
         $result = $db->prepare("
@@ -22,8 +28,8 @@ class User
 
         $result->execute(
             [
-                $username,
-                password_hash($password, PASSWORD_DEFAULT)
+                $model->getUsername(),
+                password_hash($model->getPassword(), PASSWORD_DEFAULT)
             ]
         );
         var_dump($result);
@@ -44,7 +50,7 @@ class User
         return $result->rowCount() > 0;
     }
 
-    public function login($username, $password)
+    public function login(LoginBindingModel $model)
     {
         $db = Database::getInstance('app');
         
@@ -55,8 +61,8 @@ class User
                 users
             WHERE username = ?
         ");
-
-        $result->execute([$username]);
+            var_dump($model->getUsername());
+        $result->execute([$model->getUsername()]);
 
         if ($result->rowCount() <= 0) {
             throw new \Exception('Invalid username');
@@ -64,7 +70,7 @@ class User
 
         $userRow = $result->fetch();
 
-        if (password_verify($password, $userRow['password'])) {
+        if (password_verify($model->getPassword(), $userRow['password'])) {
             return $userRow['id'];
         }
 
