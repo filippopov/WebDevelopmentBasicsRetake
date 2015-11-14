@@ -4,6 +4,10 @@ namespace MVC\ViewModels;
 
 class User
 {
+    const COL_USERNAME = 'username';
+    const COL_ID = 'id';
+    const COL_PASSWORD = 'password';
+
     private $id;
     private $user;
     private $pass;
@@ -69,5 +73,7 @@ class User
         $this->pass = $pass;
         return $this;
     }
+
+
 
 }

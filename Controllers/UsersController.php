@@ -3,6 +3,8 @@ namespace MVC\Controllers;
 
 use MVC\BindingModels\Users\CreateUserBindingModel;
 use MVC\BindingModels\Users\LoginBindingModel;
+use MVC\BindingModels\Users\UserBindingModel;
+use MVC\Models\IdentityUser;
 use MVC\Models\User;
 use MVC\View;
 use MVC\ViewModels\LoginInformation;
@@ -19,7 +21,6 @@ class UsersController extends BaseController
             try {
                 $user = $_POST['username'];
                 $pass = $_POST['password'];
-
                 $this->initLogin($user, $pass);
             } catch (\Exception $e) {
                 $viewModel->error = $e->getMessage();
@@ -32,12 +33,9 @@ class UsersController extends BaseController
 
     private function initLogin($user, $pass)
     {
-        $userModel = new User();
-        $model = new LoginBindingModel();
-        $model->setUsername($user);
-        $model->setPassword($pass);
-
-        $userId = $userModel->login($model);
+        $model = new UserBindingModel($user,$pass);
+        $userId = IdentityUser::create()->login($model);
+        var_dump($userId);
         $_SESSION['id'] = $userId;
         header("Location: profile");
     }
@@ -51,11 +49,13 @@ class UsersController extends BaseController
                 $user = $_POST['username'];
                 $pass = $_POST['password'];
 
-                $userModel = new User();
-                $model = new CreateUserBindingModel();
-                $model->setUsername($user);
-                $model->setPassword($pass);
-                $userModel->register($model);
+                $userModel = new UserBindingModel($user,$pass);
+                if(!$userModel->isValid()){
+                    throw new \Exception("Username and password must be at least 5 symbols long");
+                }
+
+                \MVC\Models\IdentityUser::add($userModel);
+                \MVC\Models\IdentityUser::save();
 
                 $this->initLogin($user, $pass);
             } catch (\Exception $e) {
@@ -73,14 +73,12 @@ class UsersController extends BaseController
             header("Location: login");
         }
 
-        $userModel = new User();
-        $userInfo = $userModel->getInfo($_SESSION['id']);
-
+        $userInfo = IdentityUser::create()->filterById($_SESSION['id'])->findOne();
 
         $userViewModel = new \MVC\ViewModels\User(
-            $userInfo['username'],
-            $userInfo['password'],
-            $userInfo['id']
+                $userInfo->getUsername(),
+                $userInfo->getPass(),
+                $userInfo->getId()
         );
 
         $this->escapeAll($userViewModel);
@@ -89,15 +87,12 @@ class UsersController extends BaseController
     }
 
     public function edit(){
-        $userModel = new User();
-        $userInfo = $userModel->getInfo($_SESSION['id']);
-
+        $userInfo = IdentityUser::create()->filterById($_SESSION['id'])->findOne();
 
         $userViewModel = new \MVC\ViewModels\User(
-            $userInfo['username'],
-            $userInfo['password'],
-            $userInfo['id']
-
+            $userInfo->getUsername(),
+            $userInfo->getPass(),
+            $userInfo->getId()
         );
 
         if (isset($_POST['edit'])) {
@@ -106,15 +101,11 @@ class UsersController extends BaseController
                 return new View($userViewModel);
             }
 
-            if ($userModel->edit(
-                $_POST['username'],
-                $_POST['password'],
-                $_SESSION['id']
-            )) {
-                $userViewModel->success = 1;
+            $userInfo->setUsername($_POST['username'])->setPass($_POST['password']);
+            $result = IdentityUser::save();
+            if($result){
                 $userViewModel->setUsername($_POST['username']);
-                $userViewModel->setPass($_POST['password']);
-
+                $userViewModel->success = 1;
                 return new View($userViewModel);
             }
 

@@ -25,26 +25,6 @@ $action = array_shift($requestParams);
     \MVC\Config\DatabaseConfig::DB_HOST
 );
 
-
-
-//$reflection = new ReflectionClass("MVC\Controllers\UsersController");
-//$methods = $reflection->getMethods();
-//
-//$pattern = "/@ROUTE\((([a-zA-Z]+)\/([a-zA-Z]+)\/*(\w*))\)/";
-//
-//
-//
-//foreach($methods as $method){
-//    if($method->getDocComment()!=false){
-//        $mapString = $method->getDocComment();
-//        preg_match($pattern,$mapString,$mapArray);
-//        $configUrl[$mapArray[1]]='users/'.$method->getName();
-//
-//
-//    }
-//}
-
-
 $route = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\UsersController");
 $configUrl = $route->matchAnnotation();
 
@@ -54,9 +34,6 @@ if($configUrl[$requestString]!==null){
     $controller = $uriParams[0];
     $action = $uriParams[1];
 }
-
-
-
 
 $app = new \MVC\Application($controller, $action, $requestParams);
 $app->start();
