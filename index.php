@@ -28,7 +28,6 @@ $action = array_shift($requestParams);
 $route = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\UsersController");
 $configUrl = $route->matchAnnotation();
 
-
 if($configUrl[$requestString]!==null){
     $uriParams = explode("/", $configUrl[$requestString]);
     $controller = $uriParams[0];

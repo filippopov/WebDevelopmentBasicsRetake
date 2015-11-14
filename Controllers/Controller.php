@@ -1,6 +1,8 @@
 <?php
 namespace MVC\Controllers;
 
+use MVC\HttpContext\HttpContext;
+
 abstract class Controller
 {
     public function __construct()
@@ -10,23 +12,6 @@ abstract class Controller
 
     protected function onInit(){
 
-    }
-
-    public function isLogged()
-    {
-        return isset($_SESSION['id']);
-    }
-
-    protected function currentUser() {
-        if (!isset($_SESSION['userId'])) {
-            return null;
-        }
-        return $_SESSION['userId'];
-    }
-
-    protected function getUsername()
-    {
-        return $_SESSION['username'];
     }
 
     protected function escapeAll(&$toEscape){

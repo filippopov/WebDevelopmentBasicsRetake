@@ -1,16 +1,15 @@
 <?php
 namespace MVC\Controllers;
 
-use MVC\BindingModels\Users\CreateUserBindingModel;
-use MVC\BindingModels\Users\LoginBindingModel;
 use MVC\BindingModels\Users\UserBindingModel;
+use MVC\HttpContext\HttpContext;
 use MVC\Models\IdentityUser;
 use MVC\Models\User;
 use MVC\View;
 use MVC\ViewModels\LoginInformation;
 use MVC\ViewModels\RegisterInformation;
 
-class UsersController extends BaseController
+class UsersController extends Controller
 {
 
     public function login()
@@ -36,7 +35,8 @@ class UsersController extends BaseController
         $model = new UserBindingModel($user,$pass);
         $userId = IdentityUser::create()->login($model);
         var_dump($userId);
-        $_SESSION['id'] = $userId;
+//        $_SESSION['id'] = $userId;
+        HttpContext::create()->setSession('id')->setSessionValue($userId)->saveSession();
         header("Location: profile");
     }
 
@@ -69,7 +69,7 @@ class UsersController extends BaseController
 
     public function profile()
     {
-        if (!$this->isLogged()) {
+        if (!HttpContext::create()->getIdentity()->getId()) {
             header("Location: login");
         }
 
@@ -113,6 +113,11 @@ class UsersController extends BaseController
             return new View($userViewModel);
         }
         return new View($userViewModel);
+    }
+
+    public function logout(){
+        HttpContext::create()->deleteSession('id');
+        header('Location: profile');
     }
 
     /**
