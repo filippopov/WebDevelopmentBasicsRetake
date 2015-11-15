@@ -51,9 +51,10 @@ class HttpContext {
     }
 
     /**
-     * @param mixed $valueCookie
+     * @param string $valueCookie
+     * @return $this
      */
-    public function setValueCookie($valueCookie)
+    public function setValueCookie(string $valueCookie)
     {
         $this->valueCookie = $valueCookie;
         return $this;
@@ -68,9 +69,10 @@ class HttpContext {
     }
 
     /**
-     * @param mixed $cookie
+     * @param string $cookie
+     * @return $this
      */
-    public function setCookie($cookie)
+    public function setCookie(string $cookie)
     {
         $this->cookie = $cookie;
         return $this;
@@ -98,9 +100,10 @@ class HttpContext {
     }
 
     /**
-     * @param mixed $session
+     * @param string $session
+     * @return $this
      */
-    public function setSession($session)
+    public function setSession(string $session)
     {
         $this->session = $session;
         return $this;
@@ -115,9 +118,10 @@ class HttpContext {
     }
 
     /**
-     * @param mixed $sessionValue
+     * @param $sessionValue
+     * @return $this
      */
-    public function setSessionValue($sessionValue)
+    public function setSessionValue(string $sessionValue)
     {
         $this->sessionValue = $sessionValue;
         return $this;
@@ -127,16 +131,17 @@ class HttpContext {
         $_SESSION[$this->getSession()] = $this->getSessionValue();
     }
 
-    public function takeSession($value){
+    public function takeSession(string $value){
         return $_SESSION[$value];
     }
 
-    public function deleteSession($value){
+    public function deleteSession(string $value){
         $_SESSION[$value] = null;
     }
 
     public function getIdentity(){
         $user = IdentityUser::create()->filterById($_SESSION['id'])->findOne();
+
         return $user;
     }
 } 

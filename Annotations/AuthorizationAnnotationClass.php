@@ -2,15 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: Filip
- * Date: 11/13/2015
- * Time: 12:56 PM
+ * Date: 11/15/2015
+ * Time: 5:11 PM
  */
 
 namespace MVC\Annotations;
 
 
-class RouteAnnotationClass extends BaseAnnotationClass {
-    private $pattern = "/@ROUTE\((([a-zA-Z]+)\/([a-zA-Z]+)\/*(\w*))\)/";
+class AuthorizationAnnotationClass extends BaseAnnotationClass {
+    private $pattern = "/(@Authorization\(\))/";
     public  $className;
 
     function __construct($className)
@@ -47,10 +47,10 @@ class RouteAnnotationClass extends BaseAnnotationClass {
             if($method->getDocComment()!=false){
                 $mapString = $method->getDocComment();
                 preg_match(self::getPattern(),$mapString,$mapArray);
-                $configUrl[$mapArray[1]]=$controllerName.'/'.$method->getName();
+                $configAuto[$controllerName.'/'.$method->getName()]=$mapArray[1];
             }
         }
 
-        return $configUrl;
+        return $configAuto;
     }
 } 

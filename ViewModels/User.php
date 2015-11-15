@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 namespace MVC\ViewModels;
 
 class User
@@ -12,7 +12,7 @@ class User
     private $user;
     private $pass;
 
-    public function __construct($user, $pass, $id = null)
+    public function __construct($user, $pass,$id = null)
     {
         $this->setId($id)
             ->setUsername($user)

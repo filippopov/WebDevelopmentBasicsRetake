@@ -30,7 +30,7 @@ class UsersController extends Controller
         return new View($viewModel);
     }
 
-    private function initLogin($user, $pass)
+    private function initLogin(string $user, string $pass)
     {
         $model = new UserBindingModel($user,$pass);
         $userId = IdentityUser::create()->login($model);
@@ -67,11 +67,14 @@ class UsersController extends Controller
         return new View();
     }
 
+    /**
+     * @Authorization()
+     */
     public function profile()
     {
-        if (!HttpContext::create()->getIdentity()->getId()) {
-            header("Location: login");
-        }
+//        if (!HttpContext::create()->getIdentity()->getId()) {
+//            header("Location: login");
+//        }
 
         $userInfo = IdentityUser::create()->filterById($_SESSION['id'])->findOne();
 
@@ -117,7 +120,7 @@ class UsersController extends Controller
 
     public function logout(){
         HttpContext::create()->deleteSession('id');
-        header('Location: profile');
+        header('Location: login');
     }
 
     /**
@@ -130,11 +133,22 @@ class UsersController extends Controller
 
 
     /**
-     * @ROUTE(proba/stana)
+     * @Role(admin)
      */
-    public function hihi(){
+    public function adminpanel(){
 
         echo "Routhing system - done";
     }
 
+    public function authorization(){
+
+        return new View();
+    }
+
+    /**
+     * @Authorization()
+     */
+    public function auto(){
+        echo "Login user!!!!";
+    }
 }

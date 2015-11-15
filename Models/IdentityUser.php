@@ -299,4 +299,13 @@ class IdentityUser {
 
         return $result->rowCount() > 0;
     }
+
+    public function inRole($userId){
+        $db = Database::getInstance('app');
+
+        $result = $db->prepare("Select r.name from users u left join users_roles ur on u.id = ur.user_id left join roles r on ur.role_id = r.id where u.id = ?");
+        $result->execute([$userId]);
+
+        return $result->fetch();
+    }
 } 

@@ -21,13 +21,13 @@ class TextAndPasswordFields {
         return new self();
     }
 
-    public function addAttribute($attributeName, $attributeValue){
+    public function addAttribute(string $attributeName,string $attributeValue){
         $this->attributes[$attributeName]=$attributeValue;
 
         return $this;
     }
 
-    public function setContent($content)
+    public function setContent(string $content)
     {
         $this->options.=$content.'<br>';
         return $this;

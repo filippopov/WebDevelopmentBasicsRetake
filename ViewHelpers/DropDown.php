@@ -22,19 +22,19 @@ class DropDown {
         return new self();
     }
 
-    public function addAttribute($attributeName, $attributeValue){
+    public function addAttribute(string $attributeName,string $attributeValue){
         $this->attributes[$attributeName]=$attributeValue;
 
         return $this;
     }
     
-    public function setDefaultOption($valueContent){
+    public function setDefaultOption(string $valueContent){
         $this->options = "\t<option value=\"\">$valueContent</option>\n".$this->options;
 
         return $this;
     }
 
-    public function setContent($content, $valueKey = 'id', $valueContent = 'value', $keySelected = null, $valueSelected = null)
+    public function setContent(string $content, $valueKey = 'id', $valueContent = 'value', $keySelected = null, $valueSelected = null)
     {
         foreach($content as $model){
             $this->options .="\t<option";
