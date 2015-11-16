@@ -13,6 +13,8 @@ $self = $_SERVER['PHP_SELF'];
 $directories = str_replace(basename($self), '', $self);
 $requestString = str_replace($directories, '', $uri);
 
+$requestString = strtolower($requestString);
+
 $requestParams = explode("/", $requestString);
 
 $controller = array_shift($requestParams);
@@ -36,9 +38,13 @@ $configRole = $role->matchAnnotation();
 
 $isInRole = \MVC\Models\IdentityUser::create()->inRole($_SESSION['id']);
 
-if($configRole[$requestString]!=$isInRole["name"]){
+if($configRole[$requestString]!==null){
+    if($configRole[$requestString]!=$isInRole["name"]){
         header('Location: authorization');
+    }
 }
+
+
 
 $authorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\UsersController");
 $configAuto = $authorization->matchAnnotation();
@@ -48,9 +54,7 @@ if($configAuto[$requestString]){
     if($userId===null){
         header('Location: login');
     }
-    else{
-        var_dump('stana!!!');
-    }
+
 }
 
 $route = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\UsersController");

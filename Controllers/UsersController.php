@@ -34,7 +34,6 @@ class UsersController extends Controller
     {
         $model = new UserBindingModel($user,$pass);
         $userId = IdentityUser::create()->login($model);
-        var_dump($userId);
 //        $_SESSION['id'] = $userId;
         HttpContext::create()->setSession('id')->setSessionValue($userId)->saveSession();
         header("Location: profile");
@@ -136,13 +135,29 @@ class UsersController extends Controller
      * @Role(admin)
      */
     public function adminpanel(){
+        $users = IdentityUser::create()->findAll();
+        $userViewModel=[];
+        foreach($users as $user){
+            $userViewModel[]= new \MVC\ViewModels\User(
+                $user->getUsername(),
+                $user->getPass(),
+                $user->getId()
+            );
+        }
 
-        echo "Routhing system - done";
+        $this->escapeAll($userViewModel);
+
+        return new View($userViewModel);
+
     }
 
     public function authorization(){
 
         return new View();
+    }
+
+    public function delete($id){
+        IdentityUser::create()->filterById($id)->delete();
     }
 
     /**
