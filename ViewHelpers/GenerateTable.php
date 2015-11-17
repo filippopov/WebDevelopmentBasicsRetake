@@ -37,7 +37,7 @@ class GenerateTable {
         return $this;
     }
 
-    public function setContent($content)
+    public function setContentUser($content)
     {
 
         foreach($content as $v){
@@ -45,6 +45,38 @@ class GenerateTable {
             $this->options .= "<td>{$v->getId()}</td>";
             $this->options .= "<td>{$v->getUsername()}</td>";
             $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
+            $this->options.="</tr>";
+        }
+
+        return $this;
+    }
+
+
+    public function setContentConference($content)
+    {
+
+        foreach($content as $v){
+            $this->options .= "<td>{$v->getId()}</td>";
+            $this->options .= "<td>{$v->getName()}</td>";
+            $this->options .= "<td>{$v->getCreatorName()}</td>";
+            $this->options .= "<td>{$v->getStartTime()}</td>";
+            $this->options .= "<td>{$v->getEndTime()}</td>";
+            $this->options .= "<td>{$v->getNumberOfBreaks()}</td>";
+            $this->options .= "<td>{$v->getHallsName()}</td>";
+            $this->options .= "<td>{$v->getStatusName()}</td>";
+            $this->options.="</tr>";
+        }
+
+        return $this;
+    }
+
+    public function setContentHall($content)
+    {
+
+        foreach($content as $v){
+            $this->options .= "<td>{$v->getId()}</td>";
+            $this->options .= "<td>{$v->getName()}</td>";
+            $this->options .= "<td>{$v->getCapacity()}</td>";
             $this->options.="</tr>";
         }
 

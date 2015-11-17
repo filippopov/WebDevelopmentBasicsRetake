@@ -2,16 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: Filip
- * Date: 11/13/2015
- * Time: 5:06 PM
+ * Date: 11/17/2015
+ * Time: 9:51 PM
  */
+
 namespace MVC\Models;
 
-use MVC\BindingModels\Users\UserBindingModel;
-use MVC\Core\Database;
-use MVC\ViewModels\User;
 
-class IdentityUser {
+use MVC\BindingModels\Halls\HallsBindingModel;
+use MVC\Core\Database;
+use MVC\ViewModels\HallsViewModel;
+
+class HallsRepository {
 
     private $query;
 
@@ -22,9 +24,11 @@ class IdentityUser {
     private $order = '';
 
     private static $selectedObjectPool = [];
+
     private static $insertObjectPool = [];
+
     /**
-     * @var IdentityUser
+     * @var HallsRepository
      */
     private static $inst = null;
 
@@ -33,7 +37,7 @@ class IdentityUser {
     }
 
     /**
-     * @return IdentityUser
+     * @return HallsRepository
      */
     public static function create(){
         if(self::$inst == null){
@@ -43,33 +47,15 @@ class IdentityUser {
         return self::$inst;
     }
 
-    /**
-     * @param $id
-     * @return $this
-     */
     public function filterById($id){
         $this->where .=" AND id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    /**
-     * @param $username
-     * @return $this
-     */
-    public function filterByUsername($username){
-        $this->where .=" AND username = ?";
-        $this->placeholders[] = $username;
-        return $this;
-    }
-
-    /**
-     * @param $password
-     * @return $this
-     */
-    public function filterByPassword($password){
-        $this->where .=" AND password = ?";
-        $this->placeholders[] = $password;
+    public function filterByName($name){
+        $this->where .=" AND name = ?";
+        $this->placeholders[] = $name;
         return $this;
     }
 
@@ -146,54 +132,53 @@ class IdentityUser {
     }
 
     /**
-     * @return User[]
+     * @return HallsViewModel[]
      * @throws \Exception
      */
     public function findAll(){
         $db = Database::getInstance('app');
 
-        $this->query = "SELECT * FROM users" . $this->where . $this->order;
+        $this->query = "SELECT * FROM halls" . $this->where . $this->order;
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 
-        $users=[];
+        $halls=[];
 
-        foreach($result->fetchAll() as $userInfo){
-            $user = new User(
-                $userInfo['username'],
-                $userInfo['password'],
-                $userInfo['id']
+        foreach($result->fetchAll() as $hallInfo){
+            $hall = new HallsViewModel(
+                $hallInfo['name'],
+                $hallInfo['capacity'],
+                $hallInfo['id']
             );
 
-            $users[] = $user;
-            self::$selectedObjectPool[] = $user;
+            $halls[] = $hall;
+            self::$selectedObjectPool[] = $hall;
         }
 
-        return $users;
+        return $halls;
     }
 
     /**
-     * @return User
+     * @return HallsViewModel
      * @throws \Exception
      */
     public function findOne(){
         $db = Database::getInstance('app');
 
-        $this->query = "SELECT * FROM users" . $this->where .$this->order ." LIMIT 1";
+        $this->query = "SELECT * FROM halls" . $this->where .$this->order ." LIMIT 1";
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
-        $userInfo = $result->fetch();
-        $user = new User(
-            $userInfo['username'],
-            $userInfo['password'],
-            $userInfo['id']);
+        $hallInfo = $result->fetch();
+        $hall = new HallsViewModel(
+            $hallInfo['name'],
+            $hallInfo['capacity'],
+            $hallInfo['id']
+        );
 
-        self::$selectedObjectPool[] = $user;
+        self::$selectedObjectPool[] = $hall;
 
-        return $user;
+        return $hall;
     }
-
-
 
     /**
      * @return bool
@@ -202,45 +187,23 @@ class IdentityUser {
     public function delete(){
         $db = Database::getInstance('app');
 
-        $this->query = "DELETE FROM users" . $this->where;
+        $this->query = "DELETE FROM halls" . $this->where;
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 
         return $result->rowCount() > 0;
     }
 
-    public function login(UserBindingModel $model)
-    {
-        $db = Database::getInstance('app');
-        $this->where .=" AND username = ?";
-        $this->placeholders[] = $model->getUsername();
-        $this->query = "SELECT id, username, password FROM users". $this->where;
-        $result =$db->prepare($this->query);
-        $result->execute($this->placeholders);
-
-        if ($result->rowCount() <= 0) {
-            throw new \Exception('Invalid username');
-        }
-
-        $userRow = $result->fetch();
-
-        if (password_verify($model->getPassword(), $userRow['password'])) {
-            return $userRow['id'];
-        }
-
-        throw new \Exception('Invalid credentials');
-    }
-
-    public static function add(UserBindingModel $user){
-        if($user->getId()){
+    public static function add(HallsBindingModel $halls){
+        if($halls->getId()){
             throw new \Exception('This entity is not new');
         }
 
-        if(self::exists($user->getUsername())){
-            throw new \Exception("User already registered");
+        if(self::exists($halls->getName())){
+            throw new \Exception("Hall already exists");
         }
 
-        self::$insertObjectPool[] = $user;
+        self::$insertObjectPool[] = $halls;
 
     }
 
@@ -257,55 +220,46 @@ class IdentityUser {
         return true;
     }
 
-    private static function update(User $user){
+    private static function update(HallsViewModel $model){
         $db = Database::getInstance('app');
-        $query = "UPDATE users SET username = ?, password = ? WHERE id = ?";
+        $query = "UPDATE halls SET name = ?, capacity = ? WHERE id = ?";
         $result = $db->prepare($query);
         $result->execute(
             [
-            $user->getUsername(),
-            password_hash($user->getPass(), PASSWORD_DEFAULT),
-            $user->getId()
+                $model->getName(),
+                $model->getCapacity(),
+                $model->getId()
             ]
         );
     }
 
-    private static function insert(UserBindingModel $user){
+    private static function insert(HallsBindingModel $model){
 
         $db = Database::getInstance('app');
-        $query = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $query = "INSERT INTO halls (name, capacity) VALUES (?, ?)";
         $result = $db->prepare($query);
         $result->execute(
             [
-            $user->getUsername(),
-            password_hash($user->getPassword(), PASSWORD_DEFAULT)
+                $model->getName(),
+                $model->getCapacity()
             ]
         );
     }
 
-    private function isColumnAllowed($column){
-        $refc = new \ReflectionClass('MVC\BindingModels\Users\UserBindingModel');
-        $consts = $refc->getConstants();
-
-        return in_array($column, $consts);
-    }
-
-    public function exists($username)
+    public function exists($name)
     {
         $db = Database::getInstance('app');
 
-        $result = $db->prepare("SELECT id FROM users WHERE username = ?");
-        $result->execute([ $username ]);
+        $result = $db->prepare("SELECT id FROM halls WHERE name = ?");
+        $result->execute([ $name ]);
 
         return $result->rowCount() > 0;
     }
 
-    public function inRole($userId){
-        $db = Database::getInstance('app');
+    private function isColumnAllowed($column){
+        $refc = new \ReflectionClass('MVC\BindingModels\Halls\HallsBindingModels');
+        $consts = $refc->getConstants();
 
-        $result = $db->prepare("Select r.name from users u left join users_roles ur on u.id = ur.user_id left join roles r on ur.role_id = r.id where u.id = ?");
-        $result->execute([$userId]);
-
-        return $result->fetch();
+        return in_array($column, $consts);
     }
 } 

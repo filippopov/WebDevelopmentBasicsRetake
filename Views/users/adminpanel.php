@@ -7,7 +7,7 @@
     ->addAttribute('class', 'red-menu')
     ->addAttribute('border','1px')
     ->setHeaders(['Id','Name','Delete'])
-    ->setContent($model)
+    ->setContentUser($model)
     ->render();
 
 ?>

@@ -29,6 +29,22 @@ $action = array_shift($requestParams);
     \MVC\Config\DatabaseConfig::DB_HOST
 );
 
+//$thisDate = "2013-02-02 22:17:06";
+//$date = new DateTime($thisDate);
+//$stringDate = $date->format('Y-m-d H:i:s');
+//var_dump($stringDate);
+//$creator = \MVC\HttpContext\HttpContext::create()->getIdentity()->getId();
+//
+//$model = new \MVC\BindingModels\Conference\ConferenceBindingModels("test",$creator,$stringDate,$stringDate,2,1,1);
+//
+//\MVC\Models\ConferenceRepository::create()->add($model);
+//\MVC\Models\ConferenceRepository::create()->save();
+
+
+//$model = new \MVC\BindingModels\Halls\HallsBindingModel('proba',325);
+//
+//\MVC\Models\HallsRepository::create()->add($model);
+//\MVC\Models\HallsRepository::save();
 
 
 

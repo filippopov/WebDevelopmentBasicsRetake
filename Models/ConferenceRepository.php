@@ -2,16 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: Filip
- * Date: 11/13/2015
- * Time: 5:06 PM
+ * Date: 11/17/2015
+ * Time: 10:30 AM
  */
+
 namespace MVC\Models;
 
-use MVC\BindingModels\Users\UserBindingModel;
-use MVC\Core\Database;
-use MVC\ViewModels\User;
 
-class IdentityUser {
+use MVC\BindingModels\Conference\ConferenceBindingModels;
+use MVC\Core\Database;
+use MVC\ViewModels\ConferenceViewModel;
+
+class ConferenceRepository {
 
     private $query;
 
@@ -22,9 +24,11 @@ class IdentityUser {
     private $order = '';
 
     private static $selectedObjectPool = [];
+
     private static $insertObjectPool = [];
+
     /**
-     * @var IdentityUser
+     * @var ConferenceRepository
      */
     private static $inst = null;
 
@@ -33,7 +37,7 @@ class IdentityUser {
     }
 
     /**
-     * @return IdentityUser
+     * @return ConferenceRepository
      */
     public static function create(){
         if(self::$inst == null){
@@ -43,33 +47,15 @@ class IdentityUser {
         return self::$inst;
     }
 
-    /**
-     * @param $id
-     * @return $this
-     */
     public function filterById($id){
         $this->where .=" AND id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    /**
-     * @param $username
-     * @return $this
-     */
-    public function filterByUsername($username){
-        $this->where .=" AND username = ?";
-        $this->placeholders[] = $username;
-        return $this;
-    }
-
-    /**
-     * @param $password
-     * @return $this
-     */
-    public function filterByPassword($password){
-        $this->where .=" AND password = ?";
-        $this->placeholders[] = $password;
+    public function filterByName($name){
+        $this->where .=" AND name = ?";
+        $this->placeholders[] = $name;
         return $this;
     }
 
@@ -146,54 +132,69 @@ class IdentityUser {
     }
 
     /**
-     * @return User[]
+     * @return ConferenceViewModel[]
      * @throws \Exception
      */
     public function findAll(){
         $db = Database::getInstance('app');
 
-        $this->query = "SELECT * FROM users" . $this->where . $this->order;
+        $this->query = "select c.id,c.name,c.time_begin, c.time_end, c.number_of_breaks, u.username as creator_name, h.name as halls_name, cs.name as status_name from conference c
+left join users u on u.id = c.creator_id
+left join halls h on c.halls_id = h.id
+left join conference_status cs on cs.id = c.status_id" . $this->where . $this->order;
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 
-        $users=[];
+        $conferences=[];
 
-        foreach($result->fetchAll() as $userInfo){
-            $user = new User(
-                $userInfo['username'],
-                $userInfo['password'],
-                $userInfo['id']
+        foreach($result->fetchAll() as $conferenceInfo){
+            $conference = new ConferenceViewModel(
+                $conferenceInfo['name'],
+                $conferenceInfo['creator_name'],
+                $conferenceInfo['time_begin'],
+                $conferenceInfo['time_end'],
+                $conferenceInfo['number_of_breaks'],
+                $conferenceInfo['halls_name'],
+                $conferenceInfo['status_name'],
+                $conferenceInfo['id']
             );
 
-            $users[] = $user;
-            self::$selectedObjectPool[] = $user;
+            $conferences[] = $conference;
+            self::$selectedObjectPool[] = $conference;
         }
 
-        return $users;
+        return $conferences;
     }
 
     /**
-     * @return User
+     * @return ConferenceViewModel
      * @throws \Exception
      */
     public function findOne(){
         $db = Database::getInstance('app');
 
-        $this->query = "SELECT * FROM users" . $this->where .$this->order ." LIMIT 1";
+        $this->query = "select c.id,c.name,c.time_begin, c.time_end, c.number_of_breaks, u.username as creator_name, h.name as halls_name, cs.name as status_name from conference c
+left join users u on u.id = c.creator_id
+left join halls h on c.halls_id = h.id
+left join conference_status cs on cs.id = c.status_id" . $this->where .$this->order ." LIMIT 1";
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
-        $userInfo = $result->fetch();
-        $user = new User(
-            $userInfo['username'],
-            $userInfo['password'],
-            $userInfo['id']);
+        $conferenceInfo = $result->fetch();
+        $conference = new ConferenceViewModel(
+            $conferenceInfo['name'],
+            $conferenceInfo['creator_name'],
+            $conferenceInfo['time_begin'],
+            $conferenceInfo['time_end'],
+            $conferenceInfo['number_of_breaks'],
+            $conferenceInfo['halls_name'],
+            $conferenceInfo['status_name'],
+            $conferenceInfo['id']
+        );
 
-        self::$selectedObjectPool[] = $user;
+        self::$selectedObjectPool[] = $conference;
 
-        return $user;
+        return $conference;
     }
-
-
 
     /**
      * @return bool
@@ -202,45 +203,23 @@ class IdentityUser {
     public function delete(){
         $db = Database::getInstance('app');
 
-        $this->query = "DELETE FROM users" . $this->where;
+        $this->query = "DELETE FROM conference" . $this->where;
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 
         return $result->rowCount() > 0;
     }
 
-    public function login(UserBindingModel $model)
-    {
-        $db = Database::getInstance('app');
-        $this->where .=" AND username = ?";
-        $this->placeholders[] = $model->getUsername();
-        $this->query = "SELECT id, username, password FROM users". $this->where;
-        $result =$db->prepare($this->query);
-        $result->execute($this->placeholders);
-
-        if ($result->rowCount() <= 0) {
-            throw new \Exception('Invalid username');
-        }
-
-        $userRow = $result->fetch();
-
-        if (password_verify($model->getPassword(), $userRow['password'])) {
-            return $userRow['id'];
-        }
-
-        throw new \Exception('Invalid credentials');
-    }
-
-    public static function add(UserBindingModel $user){
-        if($user->getId()){
+    public static function add(ConferenceBindingModels $conference){
+        if($conference->getId()){
             throw new \Exception('This entity is not new');
         }
 
-        if(self::exists($user->getUsername())){
-            throw new \Exception("User already registered");
+        if(self::exists($conference->getName())){
+            throw new \Exception("Conference already exists");
         }
 
-        self::$insertObjectPool[] = $user;
+        self::$insertObjectPool[] = $conference;
 
     }
 
@@ -257,30 +236,46 @@ class IdentityUser {
         return true;
     }
 
-    private static function update(User $user){
+    private static function update(ConferenceViewModel $model){
         $db = Database::getInstance('app');
-        $query = "UPDATE users SET username = ?, password = ? WHERE id = ?";
+        $query = "UPDATE conference SET name = ?, time_begin = ?, time_end = ? WHERE id = ?";
         $result = $db->prepare($query);
         $result->execute(
             [
-            $user->getUsername(),
-            password_hash($user->getPass(), PASSWORD_DEFAULT),
-            $user->getId()
+                $model->getName(),
+                $model->getStartTime(),
+                $model->getEndTime(),
+                $model->getId()
             ]
         );
     }
 
-    private static function insert(UserBindingModel $user){
+    private static function insert(ConferenceBindingModels $conference){
 
         $db = Database::getInstance('app');
-        $query = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $query = "INSERT INTO conference (name, creator_id, halls_id, time_begin, time_end, number_of_breaks, status_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $result = $db->prepare($query);
         $result->execute(
             [
-            $user->getUsername(),
-            password_hash($user->getPassword(), PASSWORD_DEFAULT)
+                $conference->getName(),
+                $conference->getCreatorId(),
+                $conference->getHallsId(),
+                $conference->getStartTime(),
+                $conference->getEndTime(),
+                $conference->getBreaks(),
+                $conference->getStatusId()
             ]
         );
+    }
+
+    public function exists($name)
+    {
+        $db = Database::getInstance('app');
+
+        $result = $db->prepare("SELECT id FROM conference WHERE name = ?");
+        $result->execute([ $name ]);
+
+        return $result->rowCount() > 0;
     }
 
     private function isColumnAllowed($column){
@@ -288,24 +283,5 @@ class IdentityUser {
         $consts = $refc->getConstants();
 
         return in_array($column, $consts);
-    }
-
-    public function exists($username)
-    {
-        $db = Database::getInstance('app');
-
-        $result = $db->prepare("SELECT id FROM users WHERE username = ?");
-        $result->execute([ $username ]);
-
-        return $result->rowCount() > 0;
-    }
-
-    public function inRole($userId){
-        $db = Database::getInstance('app');
-
-        $result = $db->prepare("Select r.name from users u left join users_roles ur on u.id = ur.user_id left join roles r on ur.role_id = r.id where u.id = ?");
-        $result->execute([$userId]);
-
-        return $result->fetch();
     }
 } 
