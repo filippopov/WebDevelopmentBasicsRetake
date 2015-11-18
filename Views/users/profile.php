@@ -5,5 +5,6 @@
 <a href="http://localhost:8004/Web-Development-Basics-Retake/users/adminpanel">Admin Panel</a>
 <a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference">Conferences</a>
 <a href="http://localhost:8004/Web-Development-Basics-Retake/halls/allhalls">Halls</a>
+<a href="http://localhost:8004/Web-Development-Basics-Retake/status/allstatus">Status</a>
 
 

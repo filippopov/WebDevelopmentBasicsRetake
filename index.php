@@ -46,6 +46,10 @@ $action = array_shift($requestParams);
 //\MVC\Models\HallsRepository::create()->add($model);
 //\MVC\Models\HallsRepository::save();
 
+////
+//$probaHalls = \MVC\Models\HallsRepository::create()->orderByDescending(\MVC\BindingModels\Halls\HallsBindingModel::COL_ID)->findAll();
+//
+//var_dump($probaHalls);
 
 
 

@@ -83,6 +83,18 @@ class GenerateTable {
         return $this;
     }
 
+    public function setContentStatus($content)
+    {
+
+        foreach($content as $v){
+            $this->options .= "<td>{$v->getId()}</td>";
+            $this->options .= "<td>{$v->getName()}</td>";
+            $this->options.="</tr>";
+        }
+
+        return $this;
+    }
+
     public function render(){
         $output = "<table";
         foreach($this->attributes as $key => $value){

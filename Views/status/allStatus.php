@@ -1,4 +1,4 @@
-<?php /** @var \MVC\ViewModels\HallsViewModel[] $model */?>
+<?php /** @var \MVC\ViewModels\StatusViewModel[] $model */?>
 <a href="http://localhost:8004/Web-Development-Basics-Retake/users/profile">Back To Profile</a>
 
 <?php
@@ -7,8 +7,8 @@
     ->addAttribute('id', 'names')
     ->addAttribute('class', 'red-menu')
     ->addAttribute('border','1px')
-    ->setHeaders(['Id','Hall Name','Capacity'])
-    ->setContentHall($model)
+    ->setHeaders(['Id','Status Name'])
+    ->setContentStatus($model)
     ->render();
 ?>
-<a href="http://localhost:8004/Web-Development-Basics-Retake/halls/addhalls">Add Hall</a>
+<a href="http://localhost:8004/Web-Development-Basics-Retake/status/addstatus">Add Status</a>

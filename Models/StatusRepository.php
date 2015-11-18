@@ -2,19 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: Filip
- * Date: 11/17/2015
- * Time: 9:51 PM
+ * Date: 11/18/2015
+ * Time: 3:42 PM
  */
 
 namespace MVC\Models;
 
 
-use MVC\BindingModels\Halls\HallsBindingModel;
+use MVC\BindingModels\Status\StatusBindingModel;
 use MVC\Core\Database;
-use MVC\ViewModels\HallsViewModel;
+use MVC\ViewModels\StatusViewModel;
 
-class HallsRepository {
-
+class StatusRepository {
     private $query;
 
     private $where = " WHERE 1 ";
@@ -28,7 +27,7 @@ class HallsRepository {
     private static $insertObjectPool = [];
 
     /**
-     * @var HallsRepository
+     * @var StatusRepository
      */
     private static $inst = null;
 
@@ -37,7 +36,7 @@ class HallsRepository {
     }
 
     /**
-     * @return HallsRepository
+     * @return StatusRepository
      */
     public static function create(){
         if(self::$inst == null){
@@ -132,52 +131,50 @@ class HallsRepository {
     }
 
     /**
-     * @return HallsViewModel[]
+     * @return StatusViewModel[]
      * @throws \Exception
      */
     public function findAll(){
         $db = Database::getInstance('app');
 
-        $this->query = "SELECT * FROM halls" . $this->where . $this->order;
+        $this->query = "SELECT * FROM conference_status" . $this->where . $this->order;
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 
-        $halls=[];
+        $allStatus=[];
 
-        foreach($result->fetchAll() as $hallInfo){
-            $hall = new HallsViewModel(
-                $hallInfo['name'],
-                $hallInfo['capacity'],
-                $hallInfo['id']
+        foreach($result->fetchAll() as $statusInfo){
+            $status = new StatusViewModel(
+                $statusInfo['name'],
+                $statusInfo['id']
             );
 
-            $halls[] = $hall;
-            self::$selectedObjectPool[] = $hall;
+            $allStatus[] = $status;
+            self::$selectedObjectPool[] = $status;
         }
 
-        return $halls;
+        return $allStatus;
     }
 
     /**
-     * @return HallsViewModel
+     * @return StatusViewModel
      * @throws \Exception
      */
     public function findOne(){
         $db = Database::getInstance('app');
 
-        $this->query = "SELECT * FROM halls" . $this->where .$this->order ." LIMIT 1";
+        $this->query = "SELECT * FROM conference_status" . $this->where .$this->order ." LIMIT 1";
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
-        $hallInfo = $result->fetch();
-        $hall = new HallsViewModel(
-            $hallInfo['name'],
-            $hallInfo['capacity'],
-            $hallInfo['id']
+        $statusInfo = $result->fetch();
+        $status = new StatusViewModel(
+            $statusInfo['name'],
+            $statusInfo['id']
         );
 
-        self::$selectedObjectPool[] = $hall;
+        self::$selectedObjectPool[] = $status;
 
-        return $hall;
+        return $status;
     }
 
     /**
@@ -187,23 +184,23 @@ class HallsRepository {
     public function delete(){
         $db = Database::getInstance('app');
 
-        $this->query = "DELETE FROM halls" . $this->where;
+        $this->query = "DELETE FROM conference_status" . $this->where;
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 
         return $result->rowCount() > 0;
     }
 
-    public static function add(HallsBindingModel $halls){
-        if($halls->getId()){
+    public static function add(StatusBindingModel $model){
+        if($model->getId()){
             throw new \Exception('This entity is not new');
         }
 
-        if(self::exists($halls->getName())){
-            throw new \Exception("Hall already exists");
+        if(self::exists($model->getName())){
+            throw new \Exception("Status already exists");
         }
 
-        self::$insertObjectPool[] = $halls;
+        self::$insertObjectPool[] = $model;
 
     }
 
@@ -220,28 +217,26 @@ class HallsRepository {
         return true;
     }
 
-    private static function update(HallsViewModel $model){
+    private static function update(StatusViewModel $model){
         $db = Database::getInstance('app');
-        $query = "UPDATE halls SET name = ?, capacity = ? WHERE id = ?";
+        $query = "UPDATE conference_status SET name = ? WHERE id = ?";
         $result = $db->prepare($query);
         $result->execute(
             [
                 $model->getName(),
-                $model->getCapacity(),
                 $model->getId()
             ]
         );
     }
 
-    private static function insert(HallsBindingModel $model){
+    private static function insert(StatusBindingModel $model){
 
         $db = Database::getInstance('app');
-        $query = "INSERT INTO halls (name, capacity) VALUES (?, ?)";
+        $query = "INSERT INTO conference_status (name) VALUES (?)";
         $result = $db->prepare($query);
         $result->execute(
             [
                 $model->getName(),
-                $model->getCapacity()
             ]
         );
     }
@@ -250,14 +245,14 @@ class HallsRepository {
     {
         $db = Database::getInstance('app');
 
-        $result = $db->prepare("SELECT id FROM halls WHERE name = ?");
+        $result = $db->prepare("SELECT id FROM conference_status WHERE name = ?");
         $result->execute([ $name ]);
 
         return $result->rowCount() > 0;
     }
 
     public function isColumnAllowed($column){
-        $refc = new \ReflectionClass('MVC\BindingModels\Halls\HallsBindingModel');
+        $refc = new \ReflectionClass('MVC\BindingModels\Status\StatusBindingModel');
         $consts = $refc->getConstants();
 
         return in_array($column, $consts);
