@@ -18,7 +18,7 @@ use MVC\ViewModels\StatusViewModel;
 class StatusController extends Controller {
 
     public function allStatus(){
-        $status = StatusRepository::create()->findAll();
+        $status = StatusRepository::create()->orderBy(StatusBindingModel::COL_ID)->findAll();
         $statusViewModel=[];
         foreach($status as $s){
             $statusViewModel[] = new StatusViewModel(
@@ -52,5 +52,39 @@ class StatusController extends Controller {
         }
 
         return new View();
+    }
+
+    public function editStatus($id){
+        $status = StatusRepository::create()->filterById($id)->findOne();
+
+        $statusViewModel = new StatusViewModel(
+            $status->getName()
+        );
+
+        if (isset($_POST['edit-status'])) {
+
+            if ($_POST['edit-status-name'] =='') {
+                $statusViewModel->error = 1;
+                return new View($statusViewModel);
+            }
+
+            $status->setName($_POST['edit-status-name']);
+            $result = StatusRepository::save();
+            if($result){
+                $statusViewModel->setName($_POST['edit-status-name']);
+                $statusViewModel->success = 1;
+                return new View($statusViewModel);
+            }
+
+            $statusViewModel->error = 1;
+            return new View($statusViewModel);
+        }
+
+
+        return new View($statusViewModel);
+    }
+
+    public function delete($id){
+        StatusRepository::create()->filterById($id)->delete();
     }
 } 

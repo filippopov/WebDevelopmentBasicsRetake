@@ -18,7 +18,7 @@ use MVC\ViewModels\HallsViewModel;
 class HallsController extends Controller {
 
     public function allHalls(){
-        $halls = HallsRepository::create()->findAll();
+        $halls = HallsRepository::create()->orderBy(HallsBindingModel::COL_ID)->findAll();
         $hallsViewModel=[];
         foreach($halls as $hall){
             $hallsViewModel[] = new HallsViewModel(
@@ -54,5 +54,41 @@ class HallsController extends Controller {
         }
 
         return new View();
+    }
+
+    public function editHall($id){
+        $hall = HallsRepository::create()->filterById($id)->findOne();
+
+        $hallViewModel = new HallsViewModel(
+            $hall->getName(),
+            $hall->getCapacity()
+        );
+
+        if (isset($_POST['edit-hall'])) {
+
+            if ($_POST['edit-hall-name'] =='' || $_POST['edit-hall-capacity']=='') {
+                $hallViewModel->error = 1;
+                return new View($hallViewModel);
+            }
+
+            $hall->setName($_POST['edit-hall-name'])->setCapacity($_POST['edit-hall-capacity']);
+            $result = HallsRepository::save();
+            if($result){
+                $hallViewModel->setName($_POST['edit-hall-name']);
+                $hallViewModel->setCapacity($_POST['edit-hall-capacity']);
+                $hallViewModel->success = 1;
+                return new View($hallViewModel);
+            }
+
+            $hallViewModel->error = 1;
+            return new View($hallViewModel);
+        }
+
+
+        return new View($hallViewModel);
+    }
+
+    public function delete($id){
+        HallsRepository::create()->filterById($id)->delete();
     }
 } 

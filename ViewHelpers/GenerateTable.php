@@ -56,6 +56,7 @@ class GenerateTable {
     {
 
         foreach($content as $v){
+            $this->options.="<tr>";
             $this->options .= "<td>{$v->getId()}</td>";
             $this->options .= "<td>{$v->getName()}</td>";
             $this->options .= "<td>{$v->getCreatorName()}</td>";
@@ -74,9 +75,11 @@ class GenerateTable {
     {
 
         foreach($content as $v){
+            $this->options.="<tr id=\"tr-{$v->getId()}\">";
             $this->options .= "<td>{$v->getId()}</td>";
-            $this->options .= "<td>{$v->getName()}</td>";
+            $this->options .= "<td><a href=\"http://localhost:8004/Web-Development-Basics-Retake/halls/edithall/{$v->getId()}\">{$v->getName()}</a></td>";
             $this->options .= "<td>{$v->getCapacity()}</td>";
+            $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
             $this->options.="</tr>";
         }
 
@@ -87,8 +90,10 @@ class GenerateTable {
     {
 
         foreach($content as $v){
+            $this->options.="<tr id=\"tr-{$v->getId()}\">";
             $this->options .= "<td>{$v->getId()}</td>";
-            $this->options .= "<td>{$v->getName()}</td>";
+            $this->options .= "<td><a href=\"http://localhost:8004/Web-Development-Basics-Retake/status/editstatus/{$v->getId()}\">{$v->getName()}</a></td>";
+            $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
             $this->options.="</tr>";
         }
 
