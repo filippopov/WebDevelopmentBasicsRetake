@@ -56,15 +56,16 @@ class GenerateTable {
     {
 
         foreach($content as $v){
-            $this->options.="<tr>";
+            $this->options.="<tr id=\"tr-{$v->getId()}\">";
             $this->options .= "<td>{$v->getId()}</td>";
-            $this->options .= "<td>{$v->getName()}</td>";
+            $this->options .= "<td><a href=\"http://localhost:8004/Web-Development-Basics-Retake/conference/editconference/{$v->getId()}\">{$v->getName()}</a></td>";
             $this->options .= "<td>{$v->getCreatorName()}</td>";
             $this->options .= "<td>{$v->getStartTime()}</td>";
             $this->options .= "<td>{$v->getEndTime()}</td>";
             $this->options .= "<td>{$v->getNumberOfBreaks()}</td>";
             $this->options .= "<td>{$v->getHallsName()}</td>";
             $this->options .= "<td>{$v->getStatusName()}</td>";
+            $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
             $this->options.="</tr>";
         }
 

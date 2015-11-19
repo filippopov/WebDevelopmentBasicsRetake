@@ -113,5 +113,86 @@ class ConferenceController extends Controller {
         return new View($allModels);
 
     }
+
+    public function editConference($id){
+        $conference = ConferenceRepository::create()->filterById($id)->findOne();
+
+        $conferenceViewModel = new ConferenceViewModel(
+            $conference->getName(),
+            $conference->getCreatorName(),
+            $conference->getStartTime(),
+            $conference->getEndTime(),
+            $conference->getNumberOfBreaks(),
+            $conference->getHallsName(),
+            $conference->getStatusName()
+        );
+
+        $halls = HallsRepository::create()->findAll();
+        $hallsViewModel=[];
+        foreach($halls as $hall){
+            $hallsViewModel[] = new HallsViewModel(
+                $hall->getName(),
+                $hall->getCapacity(),
+                $hall->getId()
+            );
+        }
+
+        $this->escapeAll($hallsViewModel);
+
+        $status = StatusRepository::create()->findAll();
+        $statusViewModel=[];
+        foreach($status as $s){
+            $statusViewModel[] = new StatusViewModel(
+                $s->getName(),
+                $s->getId()
+            );
+        }
+
+        $this->escapeAll($statusViewModel);
+
+        $allModels = [];
+        $allModels[] = $hallsViewModel;
+        $allModels[] = $statusViewModel;
+        $allModels[] = $conferenceViewModel;
+
+        if (isset($_POST['edit-conference'])) {
+
+            if ($_POST['conference-name-edit'] =='' || $_POST['conference-breaks-edit']==''|| $_POST['conference-start-edit']==''||
+                $_POST['conference-end-edit']==''|| $_POST['hall-name-edit']==''|| $_POST['status-conference-edit']=='') {
+                $conferenceViewModel->error = 1;
+                return new View($allModels);
+            }
+
+            $conferenceStart = str_replace('/','-',$_POST['conference-start-edit']);
+            $startTime = new \DateTime($conferenceStart);
+            $stringDateStart = $startTime->format('Y-m-d H:i:s');
+
+            $conferenceEnd = str_replace('/','-',$_POST['conference-end-edit']);
+            $endTime = new \DateTime($conferenceEnd);
+            $stringDateEnd = $endTime->format('Y-m-d H:i:s');
+
+            var_dump($_POST['status-conference-edit']);
+
+            $conference->setName($_POST['conference-name-edit'])->setNumberOfBreaks(intval($_POST['conference-breaks-edit']))->setStartTime($stringDateStart)->
+                setEndTime($stringDateEnd)->setHallsName(intval($_POST['hall-name-edit']))->setStatusName(intval($_POST['status-conference-edit']));
+            $result = ConferenceRepository::save();
+            if($result){
+                $conferenceViewModel->setName($_POST['conference-name-edit']);
+                $conferenceViewModel->setNumberOfBreaks($_POST['conference-breaks-edit']);
+                $conferenceViewModel->success = 1;
+                return new View($allModels);
+            }
+
+            $conferenceViewModel->error = 1;
+            return new View($allModels);
+        }
+
+
+        return new View($allModels);
+    }
+
+    public function delete($id){
+        ConferenceRepository::create()->filterById($id)->delete();
+    }
 }
 

@@ -48,13 +48,13 @@ class ConferenceRepository {
     }
 
     public function filterById($id){
-        $this->where .=" AND id = ?";
+        $this->where .=" AND c.id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
     public function filterByName($name){
-        $this->where .=" AND name = ?";
+        $this->where .=" AND c.name = ?";
         $this->placeholders[] = $name;
         return $this;
     }

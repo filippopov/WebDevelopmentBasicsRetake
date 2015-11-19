@@ -42,7 +42,7 @@ class ConferenceViewModel {
     /**
      * @param mixed $endTime
      */
-    private function setEndTime($endTime)
+    public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
         return $this;
@@ -59,7 +59,7 @@ class ConferenceViewModel {
     /**
      * @param mixed $id
      */
-    private function setId($id)
+    public function setId($id)
     {
         $this->id = $id;
         return $this;
@@ -76,7 +76,7 @@ class ConferenceViewModel {
     /**
      * @param mixed $startTime
      */
-    private function setStartTime($startTime)
+    public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
         return $this;
@@ -93,7 +93,7 @@ class ConferenceViewModel {
     /**
      * @param mixed $name
      */
-    private function setName($name)
+    public function setName($name)
     {
         $this->name = $name;
         return $this;
