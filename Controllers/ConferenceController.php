@@ -24,7 +24,7 @@ class ConferenceController extends Controller {
 
     public function allConference(){
 
-        $conferences = ConferenceRepository::create()->findAll();
+        $conferences = ConferenceRepository::create()->orderBy(ConferenceBindingModels::COL_ID)->findAll();
         $conferencesViewModel=[];
         foreach($conferences as $conference){
             $conferencesViewModel[] = new ConferenceViewModel(
@@ -45,7 +45,7 @@ class ConferenceController extends Controller {
     }
 
     public function addConference(){
-
+        $errorModel = new ConferenceInformation();
         $halls = HallsRepository::create()->findAll();
         $hallsViewModel=[];
         foreach($halls as $hall){
@@ -72,10 +72,16 @@ class ConferenceController extends Controller {
         $allModels = [];
         $allModels[] = $hallsViewModel;
         $allModels[] = $statusViewModel;
+        $allModels[] = $errorModel;
 
 
 
         if (isset($_POST['add-conference'])) {
+            if ($_POST['conference-name']=='' || $_POST['conference-breaks']=='' || $conferenceStart = $_POST['conference-start']==''||
+                    $conferenceEnd = $_POST['conference-end']==''||$_POST['hall-name']==''||$_POST['status-conference']=='') {
+                $errorModel->error = true;
+                return new View($allModels);
+            }
             $conferenceName = $_POST['conference-name'];
             $conferenceBreaks = $_POST['conference-breaks'];
             $conferenceStart = $_POST['conference-start'];
@@ -99,28 +105,13 @@ class ConferenceController extends Controller {
 
             ConferenceRepository::create()->add($conferenceModel);
             ConferenceRepository::save();
+            $errorModel->success = true;
+            return new View($allModels);
+
         }
 
         return new View($allModels);
+
     }
 }
 
-//$viewModel = new HallsInformation();
-//if (isset($_POST['add-hall'])) {
-//    if ($_POST['add-hall-name']=='' || $_POST['add-hall-capacity']=='') {
-//        $viewModel->error = true;
-//        return new View($viewModel);
-//    }
-//
-//    $hallName = $_POST['add-hall-name'];
-//    $hallCapacity = $_POST['add-hall-capacity'];
-//
-//    $hallModel = new HallsBindingModel($hallName,$hallCapacity);
-//
-//    HallsRepository::create()->add($hallModel);
-//    HallsRepository::save();
-//    $viewModel->success = true;
-//    return new View($viewModel);
-//}
-//
-//return new View();
