@@ -14,6 +14,7 @@ use MVC\HttpContext\HttpContext;
 use MVC\Models\ConferenceUserRepository;
 use MVC\View;
 use MVC\ViewModels\ConferenceUserInformation;
+use MVC\ViewModels\ConferenceUserViewModel;
 
 class ConferenceUserController extends Controller{
 
@@ -48,6 +49,27 @@ class ConferenceUserController extends Controller{
             return new View($viewModel);
         }
         return new View($viewModel);
+    }
+
+    public function allConferencesOfOneUser(){
+        $userId = HttpContext::create()->getIdentity()->getId();
+        $conferencesViewModel = [];
+        $conferences = ConferenceUserRepository::create()->filterByUserId($userId)->findAll();
+
+        foreach($conferences as $conference){
+            $conferencesViewModel[]= new ConferenceUserViewModel(
+                $conference->getUserId(),
+                $conference->getConferenceId(),
+                $conference->getConferenceStart(),
+                $conference->getConferenceEnd(),
+                $conference->getConferenceName(),
+                $conference->getUserName()
+            );
+        }
+
+        $this->escapeAll($conferencesViewModel);
+        return new View($conferencesViewModel);
+
     }
 
 } 

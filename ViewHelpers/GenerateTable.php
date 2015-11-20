@@ -105,6 +105,20 @@ class GenerateTable {
         return $this;
     }
 
+    public function setContentYourConferences($content)
+    {
+
+        foreach($content as $v){
+            $this->options.="<tr>";
+            $this->options .= "<td>{$v->getConferenceName()}</td>";
+            $this->options .= "<td>{$v->getConferenceStart()}</td>";
+            $this->options .= "<td>{$v->getConferenceEnd()}</td>";
+            $this->options.="</tr>";
+        }
+
+        return $this;
+    }
+
     public function setContentStatus($content)
     {
 
