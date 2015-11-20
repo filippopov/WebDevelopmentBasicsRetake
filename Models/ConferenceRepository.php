@@ -216,7 +216,6 @@ left join conference_status cs on cs.id = c.status_id" . $this->where .$this->or
         $db = Database::getInstance('app');
 
         $this->query = "DELETE FROM conference" . $this->where;
-        var_dump($this->query);
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 

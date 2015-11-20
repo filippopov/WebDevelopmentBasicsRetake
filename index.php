@@ -55,6 +55,13 @@ $action = array_shift($requestParams);
 //$confer = \MVC\Models\ConferenceRepository::create()->filterByIdForDelete(22)->delete();
 //var_dump($confer);
 
+//$bindingModel = new \MVC\BindingModels\ConferenceUser\ConferenceUserBindingModel(3,4);
+//
+//\MVC\Models\ConferenceUserRepository::create()->add($bindingModel);
+//\MVC\Models\ConferenceUserRepository::save();
+
+
+
 
 $role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
 $configRole = $role->matchAnnotation();

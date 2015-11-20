@@ -124,7 +124,8 @@ class ConferenceController extends Controller {
             $conference->getEndTime(),
             $conference->getNumberOfBreaks(),
             $conference->getHallsName(),
-            $conference->getStatusName()
+            $conference->getStatusName(),
+            $conference->getId()
         );
 
         $halls = HallsRepository::create()->findAll();
@@ -184,7 +185,6 @@ class ConferenceController extends Controller {
 
             $result = ConferenceRepository::save();
 
-            var_dump($result);
             if($result){
                 $conferenceViewModel->setName($_POST['conference-name-edit']);
                 $conferenceViewModel->setNumberOfBreaks($_POST['conference-breaks-edit']);
@@ -202,6 +202,25 @@ class ConferenceController extends Controller {
 
     public function delete($id){
         ConferenceRepository::create()->filterByIdForDelete($id)->delete();
+    }
+
+    public function conferenceInfo($id){
+        $conference = ConferenceRepository::create()->filterById($id)->findOne();
+
+        $conferenceViewModel = new ConferenceViewModel(
+            $conference->getName(),
+            $conference->getCreatorName(),
+            $conference->getStartTime(),
+            $conference->getEndTime(),
+            $conference->getNumberOfBreaks(),
+            $conference->getHallsName(),
+            $conference->getStatusName(),
+            $conference->getId()
+        );
+
+        $this->escapeAll($conferenceViewModel);
+
+        return new View($conferenceViewModel);
     }
 }
 
