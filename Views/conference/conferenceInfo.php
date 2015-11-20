@@ -13,6 +13,6 @@
 
 ?>
 <a href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/signinconference/<?=$model->getId()?>">Sign in for the course</a>
-<a href="">Sign out for the course</a>
+<a href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/signoutconference/<?=$model->getId()?>">Sign out for the course</a>
 
 

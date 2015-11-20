@@ -35,4 +35,19 @@ class ConferenceUserController extends Controller{
         return new View($viewModel);
     }
 
+    public function signOutConference($conferenceId){
+        $viewModel = new ConferenceUserInformation();
+        $userId = HttpContext::create()->getIdentity()->getId();
+        if(isset($_POST['sign-out'])){
+            $delete = ConferenceUserRepository::create()->deleteFilter($userId,$conferenceId)->delete();
+            if($delete){
+                $viewModel->success = true;
+                return new View($viewModel);
+            }
+            $viewModel->error = true;
+            return new View($viewModel);
+        }
+        return new View($viewModel);
+    }
+
 } 

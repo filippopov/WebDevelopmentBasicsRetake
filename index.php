@@ -59,8 +59,12 @@ $action = array_shift($requestParams);
 //
 //\MVC\Models\ConferenceUserRepository::create()->add($bindingModel);
 //\MVC\Models\ConferenceUserRepository::save();
+//
+//$proba = \MVC\Models\ConferenceUserRepository::create()->deleteFilter(27,12)->delete();
+//var_dump($proba);
 
-
+//$result = \MVC\Models\ConferenceUserRepository::create()->filterByUserId(27)->filterByConferenceId(10)->findOne();
+//var_dump($result);
 
 
 $role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
