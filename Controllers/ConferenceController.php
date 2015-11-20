@@ -171,11 +171,20 @@ class ConferenceController extends Controller {
             $endTime = new \DateTime($conferenceEnd);
             $stringDateEnd = $endTime->format('Y-m-d H:i:s');
 
-            var_dump($_POST['status-conference-edit']);
+            $numberOFBreaks = intval($_POST['conference-breaks-edit']);
+            $numberOfHall = intval($_POST['hall-name-edit']);
+            $numberOfStatus = intval($_POST['status-conference-edit']);
 
-            $conference->setName($_POST['conference-name-edit'])->setNumberOfBreaks(intval($_POST['conference-breaks-edit']))->setStartTime($stringDateStart)->
-                setEndTime($stringDateEnd)->setHallsName(intval($_POST['hall-name-edit']))->setStatusName(intval($_POST['status-conference-edit']));
+            $conference->setName($_POST['conference-name-edit'])
+            ->setNumberOfBreaks($numberOFBreaks)
+            ->setStartTime($stringDateStart)
+            ->setEndTime($stringDateEnd)
+            ->setHallsName($numberOfHall)
+            ->setStatusName($numberOfStatus);
+
             $result = ConferenceRepository::save();
+
+            var_dump($result);
             if($result){
                 $conferenceViewModel->setName($_POST['conference-name-edit']);
                 $conferenceViewModel->setNumberOfBreaks($_POST['conference-breaks-edit']);
@@ -192,7 +201,7 @@ class ConferenceController extends Controller {
     }
 
     public function delete($id){
-        ConferenceRepository::create()->filterById($id)->delete();
+        ConferenceRepository::create()->filterByIdForDelete($id)->delete();
     }
 }
 

@@ -52,7 +52,7 @@ $action = array_shift($requestParams);
 //var_dump($probaHalls);
 
 
-//$confer = \MVC\Models\ConferenceRepository::create()->orderByDescending(\MVC\BindingModels\Conference\ConferenceBindingModels::COL_ID)->findall();
+//$confer = \MVC\Models\ConferenceRepository::create()->filterByIdForDelete(22)->delete();
 //var_dump($confer);
 
 

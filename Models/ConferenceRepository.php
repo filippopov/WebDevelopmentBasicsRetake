@@ -53,8 +53,20 @@ class ConferenceRepository {
         return $this;
     }
 
+    public function filterByIdForDelete($id){
+        $this->where .=" AND id = ?";
+        $this->placeholders[] = $id;
+        return $this;
+    }
+
     public function filterByName($name){
         $this->where .=" AND c.name = ?";
+        $this->placeholders[] = $name;
+        return $this;
+    }
+
+    public function filterByNameForDelete($name){
+        $this->where .=" AND name = ?";
         $this->placeholders[] = $name;
         return $this;
     }
@@ -204,6 +216,7 @@ left join conference_status cs on cs.id = c.status_id" . $this->where .$this->or
         $db = Database::getInstance('app');
 
         $this->query = "DELETE FROM conference" . $this->where;
+        var_dump($this->query);
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
 
@@ -238,13 +251,16 @@ left join conference_status cs on cs.id = c.status_id" . $this->where .$this->or
 
     private static function update(ConferenceViewModel $model){
         $db = Database::getInstance('app');
-        $query = "UPDATE conference SET name = ?, time_begin = ?, time_end = ? WHERE id = ?";
+        $query = "UPDATE conference SET name = ?, time_begin = ?, time_end = ?, number_of_breaks = ?, halls_id = ?, status_id = ? WHERE id = ?";
         $result = $db->prepare($query);
         $result->execute(
             [
                 $model->getName(),
                 $model->getStartTime(),
                 $model->getEndTime(),
+                $model->getNumberOfBreaks(),
+                $model->getHallsName(),
+                $model->getStatusName(),
                 $model->getId()
             ]
         );
