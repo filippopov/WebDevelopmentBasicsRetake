@@ -150,7 +150,7 @@ class ConferenceRepository {
     public function findAll(){
         $db = Database::getInstance('app');
 
-        $this->query = "select c.id,c.name,c.time_begin, c.time_end, c.number_of_breaks, u.username as creator_name, h.name as halls_name, cs.name as status_name from conference c
+        $this->query = "select c.id,c.name,c.time_begin, c.time_end, c.number_of_breaks,c.creator_id, u.username as creator_name, h.name as halls_name, cs.name as status_name from conference c
 left join users u on u.id = c.creator_id
 left join halls h on c.halls_id = h.id
 left join conference_status cs on cs.id = c.status_id" . $this->where . $this->order;
@@ -168,7 +168,8 @@ left join conference_status cs on cs.id = c.status_id" . $this->where . $this->o
                 $conferenceInfo['number_of_breaks'],
                 $conferenceInfo['halls_name'],
                 $conferenceInfo['status_name'],
-                $conferenceInfo['id']
+                $conferenceInfo['id'],
+                $conferenceInfo['creator_id']
             );
 
             $conferences[] = $conference;
@@ -185,7 +186,7 @@ left join conference_status cs on cs.id = c.status_id" . $this->where . $this->o
     public function findOne(){
         $db = Database::getInstance('app');
 
-        $this->query = "select c.id,c.name,c.time_begin, c.time_end, c.number_of_breaks, u.username as creator_name, h.name as halls_name, cs.name as status_name from conference c
+        $this->query = "select c.id,c.name,c.time_begin, c.time_end, c.number_of_breaks, c.creator_id, u.username as creator_name, h.name as halls_name, cs.name as status_name from conference c
 left join users u on u.id = c.creator_id
 left join halls h on c.halls_id = h.id
 left join conference_status cs on cs.id = c.status_id" . $this->where .$this->order ." LIMIT 1";
@@ -200,7 +201,8 @@ left join conference_status cs on cs.id = c.status_id" . $this->where .$this->or
             $conferenceInfo['number_of_breaks'],
             $conferenceInfo['halls_name'],
             $conferenceInfo['status_name'],
-            $conferenceInfo['id']
+            $conferenceInfo['id'],
+            $conferenceInfo['creator_id']
         );
 
         self::$selectedObjectPool[] = $conference;

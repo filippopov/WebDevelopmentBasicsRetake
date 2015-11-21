@@ -12,4 +12,5 @@ namespace MVC\ViewModels;
 class ConferenceUserInformation {
     public $error = false;
     public $success = false;
+    public $creatorError =false;
 } 

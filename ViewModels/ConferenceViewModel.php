@@ -18,8 +18,11 @@ class ConferenceViewModel {
     private $creatorName;
     private $hallsName;
     private $statusName;
+    private $creatorId;
 
-    function __construct($name, $creatorName,$startTime, $endTime,$numberOfBreaks, $hallsName, $statusName, $id = null )
+
+
+    function __construct($name, $creatorName,$startTime, $endTime,$numberOfBreaks, $hallsName, $statusName, $id = null, $creatorId = null )
     {
         $this->setId($id)->
         setName($name)->
@@ -28,7 +31,24 @@ class ConferenceViewModel {
         setEndTime($endTime)->
         setNumberOfBreaks($numberOfBreaks)->
         setHallsName($hallsName)->
-        setStatusName($statusName);
+        setStatusName($statusName)->setCreatorId($creatorId);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatorId()
+    {
+        return $this->creatorId;
+    }
+
+    /**
+     * @param mixed $creatorId
+     */
+    public function setCreatorId($creatorId)
+    {
+        $this->creatorId = $creatorId;
+        return $this;
     }
 
     /**

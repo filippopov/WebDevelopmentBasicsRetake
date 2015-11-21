@@ -70,6 +70,8 @@ $action = array_shift($requestParams);
 //var_dump($result->getCountUsers());
 
 
+
+
 $role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
 $configRole = $role->matchAnnotation();
 

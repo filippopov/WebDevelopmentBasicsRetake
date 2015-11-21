@@ -11,7 +11,9 @@ namespace MVC\Controllers;
 
 use MVC\BindingModels\ConferenceUser\ConferenceUserBindingModel;
 use MVC\HttpContext\HttpContext;
+use MVC\Models\ConferenceRepository;
 use MVC\Models\ConferenceUserRepository;
+use MVC\Models\IdentityUser;
 use MVC\View;
 use MVC\ViewModels\ConferenceUserInformation;
 use MVC\ViewModels\ConferenceUserViewModel;
@@ -21,8 +23,15 @@ class ConferenceUserController extends Controller{
     public function signInConference($conferenceId){
         $viewModel = new ConferenceUserInformation();
         $userId = HttpContext::create()->getIdentity()->getId();
+        $conferenceRepository = ConferenceRepository::create()->filterById($conferenceId)->findOne();
+        $creatorId = $conferenceRepository->getCreatorId();
+
         if(isset($_POST['sign-in'])){
             $result = ConferenceUserRepository::create()->filterByUserId($userId)->filterByConferenceId($conferenceId)->findOne();
+            if($userId == $creatorId){
+                $viewModel->creatorError = true ;
+                return new View($viewModel);
+            }
             if($result->getUserId()){
                 $viewModel->error = true;
                 return new View($viewModel);
@@ -71,5 +80,7 @@ class ConferenceUserController extends Controller{
         return new View($conferencesViewModel);
 
     }
+
+
 
 } 

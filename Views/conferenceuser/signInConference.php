@@ -10,4 +10,6 @@
     <h2>You are already sign in for this conference</h2>
 <?php elseif($model->success === true): ?>
     <h2>Successfully sign in for this conference</h2>
+<?php elseif($model->creatorError === true): ?>
+    <h2>You are create this conference, you can't sign in</h2>
 <?php endif; ?>
