@@ -12,4 +12,6 @@ namespace MVC\ViewModels;
 class ConferenceInformation {
     public $error = false;
     public $success = false;
+    public $currentTimeError = false;
+    public $timeError = false;
 } 

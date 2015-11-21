@@ -71,3 +71,13 @@
     </script>
 </div>
 
+<?php if($model[3]->error === true): ?>
+    <h2>An error occurred</h2>
+<?php elseif($model[3]->success === true): ?>
+    <h2>Successfully Edit Conference</h2>
+<?php elseif($model[3]->currentTimeError === true): ?>
+    <h2>You can't edit this conference because start time is before current time</h2>
+<?php elseif($model[3]->timeError === true): ?>
+    <h2>You can't add this conference because end time is before start time</h2>
+<?php endif; ?>
+

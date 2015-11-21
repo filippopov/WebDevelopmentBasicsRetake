@@ -75,4 +75,8 @@
     <h2>An error occurred</h2>
 <?php elseif($model[2]->success === true): ?>
     <h2>Successfully Add Conference</h2>
+<?php elseif($model[2]->currentTimeError === true): ?>
+    <h2>You can't add this conference because start time is before current time</h2>
+<?php elseif($model[2]->timeError === true): ?>
+    <h2>You can't add this conference because end time is before start time</h2>
 <?php endif; ?>

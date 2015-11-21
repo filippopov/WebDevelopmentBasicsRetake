@@ -95,10 +95,20 @@ class ConferenceController extends Controller {
 
             $conferenceStart = str_replace('/','-',$conferenceStart);
             $startTime = new \DateTime($conferenceStart);
+            $currentTime = new \DateTime();
+            if($currentTime >= $startTime){
+                $errorModel->currentTimeError = true;
+                return new View($allModels);
+            }
             $stringDateStart = $startTime->format('Y-m-d H:i:s');
+
 
             $conferenceEnd = str_replace('/','-',$conferenceEnd);
             $endTime = new \DateTime($conferenceEnd);
+            if($endTime<=$startTime){
+                $errorModel->timeError = true;
+                return new View($allModels);
+            }
             $stringDateEnd = $endTime->format('Y-m-d H:i:s');
 
             $userId = HttpContext::create()->getIdentity()->getId();
@@ -117,6 +127,7 @@ class ConferenceController extends Controller {
     }
 
     public function editConference($id){
+        $errorModel = new ConferenceInformation();
         $conference = ConferenceRepository::create()->filterById($id)->findOne();
 
         $conferenceViewModel = new ConferenceViewModel(
@@ -157,21 +168,31 @@ class ConferenceController extends Controller {
         $allModels[] = $hallsViewModel;
         $allModels[] = $statusViewModel;
         $allModels[] = $conferenceViewModel;
+        $allModels[] = $errorModel;
 
         if (isset($_POST['edit-conference'])) {
 
             if ($_POST['conference-name-edit'] =='' || $_POST['conference-breaks-edit']==''|| $_POST['conference-start-edit']==''||
                 $_POST['conference-end-edit']==''|| $_POST['hall-name-edit']==''|| $_POST['status-conference-edit']=='') {
-                $conferenceViewModel->error = 1;
+                $errorModel->error = true;
                 return new View($allModels);
             }
 
             $conferenceStart = str_replace('/','-',$_POST['conference-start-edit']);
             $startTime = new \DateTime($conferenceStart);
+            $currentTime = new \DateTime();
+            if($currentTime >= $startTime){
+                $errorModel->currentTimeError = true;
+                return new View($allModels);
+            }
             $stringDateStart = $startTime->format('Y-m-d H:i:s');
 
             $conferenceEnd = str_replace('/','-',$_POST['conference-end-edit']);
             $endTime = new \DateTime($conferenceEnd);
+            if($endTime<=$startTime){
+                $errorModel->timeError = true;
+                return new View($allModels);
+            }
             $stringDateEnd = $endTime->format('Y-m-d H:i:s');
 
             $numberOFBreaks = intval($_POST['conference-breaks-edit']);
@@ -190,11 +211,11 @@ class ConferenceController extends Controller {
             if($result){
                 $conferenceViewModel->setName($_POST['conference-name-edit']);
                 $conferenceViewModel->setNumberOfBreaks($_POST['conference-breaks-edit']);
-                $conferenceViewModel->success = 1;
+                $errorModel->success = true;
                 return new View($allModels);
             }
 
-            $conferenceViewModel->error = 1;
+            $errorModel->error = true;
             return new View($allModels);
         }
 
