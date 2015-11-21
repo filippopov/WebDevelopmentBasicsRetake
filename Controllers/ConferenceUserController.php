@@ -25,6 +25,18 @@ class ConferenceUserController extends Controller{
         $userId = HttpContext::create()->getIdentity()->getId();
         $conferenceRepository = ConferenceRepository::create()->filterById($conferenceId)->findOne();
         $creatorId = $conferenceRepository->getCreatorId();
+        $allConferenceOfUser = ConferenceUserRepository::create()->filterByUserId($userId)->findAll();
+        $conferenceOfUserTimeNeed =[];
+        foreach($allConferenceOfUser as $conferenceOfUser) {
+            $conferenceOfUserTimeNeed[] = new ConferenceUserViewModel(
+                $conferenceOfUser->getUserId(),
+                $conferenceOfUser->getConferenceId(),
+                $conferenceOfUser->getConferenceStart(),
+                $conferenceOfUser->getConferenceEnd(),
+                $conferenceOfUser->getConferenceName(),
+                $conferenceOfUser->getUserName()
+            );
+        }
 
         if(isset($_POST['sign-in'])){
             $result = ConferenceUserRepository::create()->filterByUserId($userId)->filterByConferenceId($conferenceId)->findOne();
@@ -36,6 +48,25 @@ class ConferenceUserController extends Controller{
                 $viewModel->error = true;
                 return new View($viewModel);
             }
+            foreach($conferenceOfUserTimeNeed as $conferenceTime){
+                $oldConferenceStart = $conferenceTime->getConferenceStart();
+                $oldConferenceEnd = $conferenceTime->getConferenceEnd();
+
+                $newConferenceStart = $conferenceRepository->getStartTime();
+                $newConferenceEnd = $conferenceRepository->getEndTime();
+
+                $isStartInRange = $this->check_in_range($oldConferenceStart, $oldConferenceEnd, $newConferenceStart);
+                if($isStartInRange){
+                    $viewModel->timeCollisionError = true ;
+                    return new View($viewModel);
+                }
+                $isEndInRange = $this->check_in_range($oldConferenceStart, $oldConferenceEnd, $newConferenceEnd);
+                if($isEndInRange){
+                    $viewModel->timeCollisionError = true ;
+                    return new View($viewModel);
+                }
+            }
+
             $model = new ConferenceUserBindingModel($userId,$conferenceId);
             ConferenceUserRepository::create()->add($model);
             ConferenceUserRepository::save();
@@ -79,6 +110,18 @@ class ConferenceUserController extends Controller{
         $this->escapeAll($conferencesViewModel);
         return new View($conferencesViewModel);
 
+    }
+
+
+    private function check_in_range($start_date, $end_date, $date_from_user)
+    {
+        // Convert to timestamp
+        $start_ts = strtotime($start_date);
+        $end_ts = strtotime($end_date);
+        $user_ts = strtotime($date_from_user);
+
+        // Check that user date is between start & end
+        return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
     }
 
 

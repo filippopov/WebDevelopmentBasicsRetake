@@ -12,4 +12,6 @@
     <h2>Successfully sign in for this conference</h2>
 <?php elseif($model->creatorError === true): ?>
     <h2>You are create this conference, you can't sign in</h2>
+<?php elseif($model->timeCollisionError === true): ?>
+    <h2>You are sign in for conference in same time (Collision Error). Check your conferences</h2>
 <?php endif; ?>

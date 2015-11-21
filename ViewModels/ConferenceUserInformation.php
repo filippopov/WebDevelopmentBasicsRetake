@@ -13,4 +13,5 @@ class ConferenceUserInformation {
     public $error = false;
     public $success = false;
     public $creatorError =false;
+    public $timeCollisionError = false;
 } 
