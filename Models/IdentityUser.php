@@ -209,6 +209,21 @@ class IdentityUser {
         return $result->rowCount() > 0;
     }
 
+    public function insertAdmin($userId, $roleId){
+        $db = Database::getInstance('app');
+
+        $this->query = "INSERT INTO users_roles (user_id, role_id) VALUES (?, ?)";
+        $result = $db->prepare($this->query);
+        $result->execute(
+            [
+                $userId,
+                $roleId
+            ]
+        );
+
+        return $result->rowCount() > 0;
+    }
+
     public function login(UserBindingModel $model)
     {
         $db = Database::getInstance('app');

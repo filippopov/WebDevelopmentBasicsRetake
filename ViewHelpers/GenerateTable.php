@@ -44,7 +44,8 @@ class GenerateTable {
             $this->options.="<tr id=\"tr-{$v->getId()}\">";
             $this->options .= "<td>{$v->getId()}</td>";
             $this->options .= "<td>{$v->getUsername()}</td>";
-            $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"delete\" id=\"{$v->getId()}\">Delete</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"admin\" id=\"{$v->getId()}\">Admin Role</a></td>";
             $this->options.="</tr>";
         }
 
@@ -118,6 +119,20 @@ class GenerateTable {
 
         return $this;
     }
+
+    public function setContentUsersInConference($content)
+    {
+
+        foreach($content as $v){
+            $this->options.="<tr>";
+            $this->options .= "<td>{$v->getUserName()}</td>";
+            $this->options.="</tr>";
+        }
+
+        return $this;
+    }
+
+
 
     public function setContentStatus($content)
     {

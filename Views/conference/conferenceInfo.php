@@ -14,6 +14,7 @@
 ?>
 <a href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/signinconference/<?=$model[0]->getId()?>">Sign in for the conference</a>
 <a href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/signoutconference/<?=$model[0]->getId()?>">Sign out for the conference</a>
+<a href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/alluserssigninforthisconference/<?=$model[0]->getId()?>">All users sign in for this conference</a>
 
 <div>
     <strong>

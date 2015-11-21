@@ -166,4 +166,9 @@ class UsersController extends Controller
     public function auto(){
         echo "Login user!!!!";
     }
+
+    public function admin($userId){
+        $adminId =1;
+        return IdentityUser::create()->insertAdmin($userId, $adminId);
+    }
 }

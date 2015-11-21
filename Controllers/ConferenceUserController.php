@@ -112,6 +112,23 @@ class ConferenceUserController extends Controller{
 
     }
 
+    public function allUsersSignInForThisConference($conferenceId){
+        $usersInConference = ConferenceUserRepository::create()->filterByConferenceId($conferenceId)->findAll();
+        $usersInConferenceViewModel = [];
+        foreach($usersInConference as $users){
+            $usersInConferenceViewModel[]=new ConferenceUserViewModel(
+                $users->getUserId(),
+                $users->getConferenceId(),
+                $users->getConferenceStart(),
+                $users->getConferenceEnd(),
+                $users->getConferenceName(),
+                $users->getUserName()
+            );
+        }
+
+        $this->escapeAll($usersInConferenceViewModel);
+        return new View($usersInConferenceViewModel);
+    }
 
     private function check_in_range($start_date, $end_date, $date_from_user)
     {
