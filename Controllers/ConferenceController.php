@@ -12,9 +12,11 @@ namespace MVC\Controllers;
 use MVC\BindingModels\Conference\ConferenceBindingModels;
 use MVC\HttpContext\HttpContext;
 use MVC\Models\ConferenceRepository;
+use MVC\Models\ConferenceUserRepository;
 use MVC\Models\HallsRepository;
 use MVC\Models\StatusRepository;
 use MVC\View;
+use MVC\ViewModels\ConferenceCountUserViewModel;
 use MVC\ViewModels\ConferenceInformation;
 use MVC\ViewModels\ConferenceViewModel;
 use MVC\ViewModels\HallsViewModel;
@@ -206,6 +208,13 @@ class ConferenceController extends Controller {
 
     public function conferenceInfo($id){
         $conference = ConferenceRepository::create()->filterById($id)->findOne();
+        $hall = HallsRepository::create()->filterByName($conference->getHallsName())->findOne();
+
+        $hallViewModel = new HallsViewModel(
+            $hall->getName(),
+            $hall->getCapacity(),
+            $hall->getId()
+        );
 
         $conferenceViewModel = new ConferenceViewModel(
             $conference->getName(),
@@ -218,9 +227,19 @@ class ConferenceController extends Controller {
             $conference->getId()
         );
 
-        $this->escapeAll($conferenceViewModel);
+        $conferenceCount = ConferenceUserRepository::create()->groupFilter($conference->getId())->findConferenceCount();
 
-        return new View($conferenceViewModel);
+        $conferenceCountUserViewModel = new ConferenceCountUserViewModel(
+            $conferenceCount->getCountUsers()
+        );
+
+        $allViewModel=[];
+        $allViewModel[] = $conferenceViewModel;
+        $allViewModel[] = $hallViewModel;
+        $allViewModel[] = $conferenceCountUserViewModel;
+
+        $this->escapeAll($allViewModel);
+
+        return new View($allViewModel);
     }
 }
-

@@ -11,6 +11,7 @@ namespace MVC\Models;
 
 use MVC\BindingModels\ConferenceUser\ConferenceUserBindingModel;
 use MVC\Core\Database;
+use MVC\ViewModels\ConferenceCountUserViewModel;
 use MVC\ViewModels\ConferenceUserViewModel;
 
 class ConferenceUserRepository {
@@ -55,6 +56,12 @@ class ConferenceUserRepository {
 
     public function filterByConferenceId($id){
         $this->where .=" AND uc.conference_id = ?";
+        $this->placeholders[] = $id;
+        return $this;
+    }
+
+    public function groupFilter($id){
+        $this->where .=" AND conference_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
@@ -123,6 +130,20 @@ join users u on u.id = uc.user_id" . $this->where .$this->order ." LIMIT 1";
         );
 
         self::$selectedObjectPool[] = $confUser;
+
+        return $confUser;
+    }
+
+    public function findConferenceCount(){
+        $db = Database::getInstance('app');
+
+        $this->query = "SELECT count(user_id) as count FROM users_conference" .$this->where . " group by conference_id";
+        $result = $db->prepare($this->query);
+        $result->execute($this->placeholders);
+        $conferenceUser = $result->fetch();
+        $confUser = new ConferenceCountUserViewModel(
+            $conferenceUser['count']
+        );
 
         return $confUser;
     }

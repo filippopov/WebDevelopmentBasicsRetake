@@ -66,6 +66,9 @@ $action = array_shift($requestParams);
 //$result = \MVC\Models\ConferenceUserRepository::create()->filterByUserId(27)->filterByConferenceId(10)->findOne();
 //var_dump($result);
 
+//$result = \MVC\Models\ConferenceUserRepository::create()->groupFilter(3)->findConferenceCount();
+//var_dump($result->getCountUsers());
+
 
 $role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
 $configRole = $role->matchAnnotation();
