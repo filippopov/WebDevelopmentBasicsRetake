@@ -14,9 +14,11 @@ use MVC\HttpContext\HttpContext;
 use MVC\Models\ConferenceRepository;
 use MVC\Models\ConferenceUserRepository;
 use MVC\Models\IdentityUser;
+use MVC\Models\LectorConferenceRepository;
 use MVC\View;
 use MVC\ViewModels\ConferenceUserInformation;
 use MVC\ViewModels\ConferenceUserViewModel;
+use MVC\ViewModels\LectorConferenceViewModel;
 
 class ConferenceUserController extends Controller{
 
@@ -114,6 +116,7 @@ class ConferenceUserController extends Controller{
 
     public function allUsersSignInForThisConference($conferenceId){
         $usersInConference = ConferenceUserRepository::create()->filterByConferenceId($conferenceId)->findAll();
+        $allViewModels = [];
         $usersInConferenceViewModel = [];
         foreach($usersInConference as $users){
             $usersInConferenceViewModel[]=new ConferenceUserViewModel(
@@ -126,8 +129,22 @@ class ConferenceUserController extends Controller{
             );
         }
 
-        $this->escapeAll($usersInConferenceViewModel);
-        return new View($usersInConferenceViewModel);
+        $lectorsInConference  = LectorConferenceRepository::create()->filterByConferenceId($conferenceId)->findAll();
+        $lectorsInConferenceViewModel = [];
+        foreach($lectorsInConference as $lector){
+            $lectorsInConferenceViewModel[] = new LectorConferenceViewModel(
+                $lector->getLectorName(),
+                $lector->getConferenceName(),
+                $lector->getConferenceId(),
+                $lector->getConferenceName()
+            );
+        }
+
+        $allViewModels[] = $usersInConferenceViewModel;
+        $allViewModels[] = $lectorsInConferenceViewModel;
+
+        $this->escapeAll($allViewModels);
+        return new View($allViewModels);
     }
 
     private function check_in_range($start_date, $end_date, $date_from_user)

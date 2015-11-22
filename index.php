@@ -68,7 +68,11 @@ $action = array_shift($requestParams);
 
 //$result = \MVC\Models\ConferenceUserRepository::create()->groupFilter(3)->findConferenceCount();
 //var_dump($result->getCountUsers());
-
+//
+//
+//$result = \MVC\Models\LectorConferenceRepository::create()->deleteFilter(6,3)->delete();
+//
+//var_dump($result);
 
 
 
