@@ -45,7 +45,8 @@ class GenerateTable {
             $this->options .= "<td>{$v->getId()}</td>";
             $this->options .= "<td>{$v->getUsername()}</td>";
             $this->options .= "<td><a href=\"\" class=\"delete\" id=\"{$v->getId()}\">Delete</a></td>";
-            $this->options .= "<td><a href=\"\" class=\"admin\" id=\"{$v->getId()}\">Admin Role</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"admin-role\" id=\"{$v->getId()}\">Admin Role</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"remove-admin-role\" id=\"{$v->getId()}\">Remove Admin Role</a></td>";
             $this->options.="</tr>";
         }
 
@@ -126,6 +127,18 @@ class GenerateTable {
         foreach($content as $v){
             $this->options.="<tr>";
             $this->options .= "<td>{$v->getLectorName()}</td>";
+            $this->options.="</tr>";
+        }
+
+        return $this;
+    }
+
+    public function setContentAdmins($content)
+    {
+
+        foreach($content as $v){
+            $this->options.="<tr>";
+            $this->options .= "<td>{$v->getUsername()}</td>";
             $this->options.="</tr>";
         }
 

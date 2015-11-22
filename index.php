@@ -73,8 +73,9 @@ $action = array_shift($requestParams);
 //$result = \MVC\Models\LectorConferenceRepository::create()->deleteFilter(6,3)->delete();
 //
 //var_dump($result);
-
-
+//
+//$result = \MVC\Models\RoleUserRepository::create()->deleteFilter(6,1)->delete();
+//var_dump($result);
 
 $role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
 $configRole = $role->matchAnnotation();

@@ -4,10 +4,12 @@ namespace MVC\Controllers;
 use MVC\BindingModels\Users\UserBindingModel;
 use MVC\HttpContext\HttpContext;
 use MVC\Models\IdentityUser;
+use MVC\Models\RoleUserRepository;
 use MVC\Models\User;
 use MVC\View;
 use MVC\ViewModels\LoginInformation;
 use MVC\ViewModels\RegisterInformation;
+use MVC\ViewModels\RoleUserViewModel;
 
 class UsersController extends Controller
 {
@@ -135,6 +137,7 @@ class UsersController extends Controller
      * @Role(admin)
      */
     public function adminpanel(){
+        $allViewModels = [];
         $users = IdentityUser::create()->findAll();
         $userViewModel=[];
         foreach($users as $user){
@@ -145,9 +148,23 @@ class UsersController extends Controller
             );
         }
 
-        $this->escapeAll($userViewModel);
+        $allAdminsName = RoleUserRepository::create()->filterByRoleId(1)->findAll();
+        $adminViewModel = [];
+        foreach($allAdminsName as $admin){
+            $adminViewModel[] = new RoleUserViewModel(
+                $admin->getUserId(),
+                $admin->getRoleId(),
+                $admin->getRoleName(),
+                $admin->getUsername()
+            );
+        }
 
-        return new View($userViewModel);
+        $allViewModels[] = $userViewModel;
+        $allViewModels[] = $adminViewModel;
+
+        $this->escapeAll($allViewModels);
+
+        return new View($allViewModels);
 
     }
 
@@ -167,8 +184,5 @@ class UsersController extends Controller
         echo "Login user!!!!";
     }
 
-    public function admin($userId){
-        $adminId =1;
-        return IdentityUser::create()->insertAdmin($userId, $adminId);
-    }
+
 }
