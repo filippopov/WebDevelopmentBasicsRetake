@@ -13,11 +13,14 @@ use MVC\BindingModels\ConferenceUser\ConferenceUserBindingModel;
 use MVC\HttpContext\HttpContext;
 use MVC\Models\ConferenceRepository;
 use MVC\Models\ConferenceUserRepository;
+use MVC\Models\HallsRepository;
 use MVC\Models\IdentityUser;
 use MVC\Models\LectorConferenceRepository;
 use MVC\View;
+use MVC\ViewModels\ConferenceCountUserViewModel;
 use MVC\ViewModels\ConferenceUserInformation;
 use MVC\ViewModels\ConferenceUserViewModel;
+use MVC\ViewModels\HallsViewModel;
 use MVC\ViewModels\LectorConferenceViewModel;
 
 class ConferenceUserController extends Controller{
@@ -39,9 +42,30 @@ class ConferenceUserController extends Controller{
                 $conferenceOfUser->getUserName()
             );
         }
+        $hallName = $conferenceRepository->getHallsName();
+        $hall = HallsRepository::create()->filterByName($hallName)->findOne();
 
+        $hallModel = new HallsViewModel(
+            $hall->getName(),
+            $hall->getCapacity(),
+            $hall->getId()
+        );
+
+        $hallCapacity = $hallModel->getCapacity();
+
+        $conferenceCount = ConferenceUserRepository::create()->findConferenceCountById($conferenceId);
+
+        $conferenceCountUserViewModel = new ConferenceCountUserViewModel(
+            $conferenceCount->getCountUsers()
+        );
+        $usersCount = $conferenceCountUserViewModel->getCountUsers();
         if(isset($_POST['sign-in'])){
             $result = ConferenceUserRepository::create()->filterByUserId($userId)->filterByConferenceId($conferenceId)->findOne();
+            if($hallCapacity<=$usersCount){
+
+                $viewModel->capacityError = true;
+                return new View($viewModel);
+            }
             if($userId == $creatorId){
                 $viewModel->creatorError = true ;
                 return new View($viewModel);

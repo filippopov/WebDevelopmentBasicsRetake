@@ -14,4 +14,5 @@ class ConferenceUserInformation {
     public $success = false;
     public $creatorError =false;
     public $timeCollisionError = false;
+    public $capacityError = false;
 } 

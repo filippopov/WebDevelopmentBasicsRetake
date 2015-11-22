@@ -14,4 +14,6 @@
     <h2>You are create this conference, you can't sign in</h2>
 <?php elseif($model->timeCollisionError === true): ?>
     <h2>You are sign in for conference in same time (Collision Error). Check your conferences</h2>
+<?php elseif($model->capacityError === true): ?>
+    <h2>Conference is full</h2>
 <?php endif; ?>

@@ -148,6 +148,23 @@ join users u on u.id = uc.user_id" . $this->where .$this->order ." LIMIT 1";
         return $confUser;
     }
 
+    public function findConferenceCountById($conferenceId){
+        $db = Database::getInstance('app');
+        $query = "SELECT count(user_id) as count FROM users_conference where conference_id = ? group by conference_id";
+        $result = $db->prepare($query);
+        $result->execute(
+            [
+                $conferenceId
+            ]
+        );
+        $conferenceUser = $result->fetch();
+        $confUser = new ConferenceCountUserViewModel(
+            $conferenceUser['count']
+        );
+
+        return $confUser;
+    }
+
     /**
      * @return bool
      * @throws \Exception
