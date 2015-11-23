@@ -17,6 +17,9 @@ use MVC\ViewModels\StatusViewModel;
 
 class StatusController extends Controller {
 
+    /**
+     * @Authorization()
+     */
     public function allStatus(){
         $status = StatusRepository::create()->orderBy(StatusBindingModel::COL_ID)->findAll();
         $statusViewModel=[];
@@ -32,6 +35,9 @@ class StatusController extends Controller {
         return new View($statusViewModel);
     }
 
+    /**
+     * @Role(admin)
+     */
     public function addStatus(){
 
         $viewModel = new StatusInformation();
@@ -53,6 +59,7 @@ class StatusController extends Controller {
 
         return new View();
     }
+
 
     public function editStatus($id){
         $status = StatusRepository::create()->filterById($id)->findOne();
@@ -84,7 +91,23 @@ class StatusController extends Controller {
         return new View($statusViewModel);
     }
 
+
     public function delete($id){
         StatusRepository::create()->filterById($id)->delete();
+    }
+
+    public function login(){
+        return new View();
+    }
+
+    public function authorization(){
+        return new View();
+    }
+
+    /**
+     * @ROUTE(st/stroute)
+     */
+    public function testRoute(){
+        echo "Hi from my routing system";
     }
 } 

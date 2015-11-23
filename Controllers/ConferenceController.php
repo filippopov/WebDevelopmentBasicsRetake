@@ -24,6 +24,9 @@ use MVC\ViewModels\StatusViewModel;
 
 class ConferenceController extends Controller {
 
+    /**
+     * @Authorization()
+     */
     public function allConference(){
 
         $conferences = ConferenceRepository::create()->orderBy(ConferenceBindingModels::COL_ID)->findAll();
@@ -46,6 +49,9 @@ class ConferenceController extends Controller {
         return new View($conferencesViewModel);
     }
 
+    /**
+     * @Role(admin)
+     */
     public function addConference(){
         $errorModel = new ConferenceInformation();
         $halls = HallsRepository::create()->findAll();
@@ -227,6 +233,11 @@ class ConferenceController extends Controller {
         ConferenceRepository::create()->filterByIdForDelete($id)->delete();
     }
 
+    /**
+     * @param $id
+     * @return View
+     * @@Authorization()
+     */
     public function conferenceInfo($id){
         $conference = ConferenceRepository::create()->filterById($id)->findOne();
         $hall = HallsRepository::create()->filterByName($conference->getHallsName())->findOne();
@@ -262,5 +273,20 @@ class ConferenceController extends Controller {
         $this->escapeAll($allViewModel);
 
         return new View($allViewModel);
+    }
+
+    public function login(){
+        return new View();
+    }
+
+    public function authorization(){
+        return new View();
+    }
+
+    /**
+     * @ROUTE(conf/test)
+     */
+    public function testRoute(){
+        echo "Hi from my routing system";
     }
 }

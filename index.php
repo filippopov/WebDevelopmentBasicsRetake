@@ -29,6 +29,61 @@ $action = array_shift($requestParams);
     \MVC\Config\DatabaseConfig::DB_HOST
 );
 $isInRole = \MVC\Models\IdentityUser::create()->inRole($_SESSION['id']);
+$request = $controller.'/'.$action;
+
+
+
+//ConferenceController start
+
+$roleConference = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\ConferenceController");
+$configRoleConference = $roleConference->matchAnnotation();
+if($configRoleConference[$request]!==null){
+    if($configRoleConference[$request]!=$isInRole["name"]){
+        header('Location: authorization');
+    }
+}
+
+$conferenceAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\ConferenceController");
+$configConfAuto = $conferenceAuthorization->matchAnnotation();
+if($configConfAuto[$request]){
+    checkUserId();
+}
+
+$routeConference = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\ConferenceController");
+$configUrlConf = $routeConference->matchAnnotation();
+if($configUrlConf[$request]!==null){
+    $uriParamsHall = explode("/", $configUrlConf[$request]);
+    $controller = $uriParamsHall[0];
+    $action = $uriParamsHall[1];
+}
+
+//ConferenceController end
+
+
+//StatusController start
+$roleStatus = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\StatusController");
+$configRoleStatus = $roleStatus->matchAnnotation();
+if($configRoleStatus[$requestString]!==null){
+    if($configRoleStatus[$requestString]!=$isInRole["name"]){
+        header('Location: authorization');
+    }
+}
+
+$statusAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\StatusController");
+$configStatusAuto = $statusAuthorization->matchAnnotation();
+if($configStatusAuto[$requestString]){
+    checkUserId();
+}
+
+$routeStatus = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\StatusController");
+$configUrlStatus = $routeStatus->matchAnnotation();
+if($configUrlStatus[$requestString]!==null){
+    $uriParamsHall = explode("/", $configUrlStatus[$requestString]);
+    $controller = $uriParamsHall[0];
+    $action = $uriParamsHall[1];
+}
+
+//StatusController end
 
 //HallController start
 
@@ -89,6 +144,8 @@ if($configUrl[$requestString]!==null){
 
 //UserController End
 
+
+
 $app = new \MVC\Application($controller, $action, $requestParams);
 $app->start();
 
@@ -96,12 +153,12 @@ $app->start();
 
 
 //For All Controllers
-
 function checkUserId(){
     $userId =  \MVC\HttpContext\HttpContext::create()->getIdentity()->getId();
     if($userId===null){
-        header('Location: login');
+        header('Location: http://localhost:8004/Web-Development-Basics-Retake/conference/login');
     }
 }
+
 
 
