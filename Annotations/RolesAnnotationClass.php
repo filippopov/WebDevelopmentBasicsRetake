@@ -45,9 +45,10 @@ class RolesAnnotationClass extends BaseAnnotationClass {
         $methods = $reflection->getMethods();
         foreach($methods as $method){
             if($method->getDocComment()!=false){
+                $methodLowerCase = strtolower($method->getName());
                 $mapString = $method->getDocComment();
                 preg_match(self::getPattern(),$mapString,$mapArray);
-                $configRole[$controllerName.'/'.$method->getName()]=$mapArray[1];
+                $configRole[$controllerName.'/'.$methodLowerCase]=$mapArray[1];
             }
         }
 

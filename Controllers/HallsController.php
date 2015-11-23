@@ -17,6 +17,9 @@ use MVC\ViewModels\HallsViewModel;
 
 class HallsController extends Controller {
 
+    /**
+     * @Authorization()
+     */
     public function allHalls(){
         $halls = HallsRepository::create()->orderBy(HallsBindingModel::COL_ID)->findAll();
         $hallsViewModel=[];
@@ -33,6 +36,9 @@ class HallsController extends Controller {
         return new View($hallsViewModel);
     }
 
+    /**
+     * @Role(admin)
+     */
     public function addHalls(){
 
         $viewModel = new HallsInformation();
@@ -55,6 +61,7 @@ class HallsController extends Controller {
 
         return new View();
     }
+
 
     public function editHall($id){
         $hall = HallsRepository::create()->filterById($id)->findOne();
@@ -88,7 +95,23 @@ class HallsController extends Controller {
         return new View($hallViewModel);
     }
 
+
     public function delete($id){
         HallsRepository::create()->filterById($id)->delete();
+    }
+
+    public function login(){
+        return new View();
+    }
+
+    public function authorization(){
+        return new View();
+    }
+
+    /**
+     * @ROUTE(route/probaroute)
+     */
+    public function testRoute(){
+        echo "Hi from my routing system";
     }
 } 

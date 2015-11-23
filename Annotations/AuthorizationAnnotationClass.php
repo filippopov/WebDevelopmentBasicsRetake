@@ -44,10 +44,12 @@ class AuthorizationAnnotationClass extends BaseAnnotationClass {
         $reflection = new \ReflectionClass(self::getClassName());
         $methods = $reflection->getMethods();
         foreach($methods as $method){
+
             if($method->getDocComment()!=false){
+                $methodLowerCase = strtolower($method->getName());
                 $mapString = $method->getDocComment();
                 preg_match(self::getPattern(),$mapString,$mapArray);
-                $configAuto[$controllerName.'/'.$method->getName()]=$mapArray[1];
+                $configAuto[$controllerName.'/'.$methodLowerCase]=$mapArray[1];
             }
         }
 

@@ -28,77 +28,53 @@ $action = array_shift($requestParams);
     \MVC\Config\DatabaseConfig::DB_NAME,
     \MVC\Config\DatabaseConfig::DB_HOST
 );
+$isInRole = \MVC\Models\IdentityUser::create()->inRole($_SESSION['id']);
 
-//$thisDate = "2013-02-02 22:17:06";
-//$date = new DateTime($thisDate);
-//$stringDate = $date->format('Y-m-d H:i:s');
-//var_dump($stringDate);
-//$creator = \MVC\HttpContext\HttpContext::create()->getIdentity()->getId();
-//
-//$model = new \MVC\BindingModels\Conference\ConferenceBindingModels("test",$creator,$stringDate,$stringDate,2,1,1);
-//
-//\MVC\Models\ConferenceRepository::create()->add($model);
-//\MVC\Models\ConferenceRepository::create()->save();
+//HallController start
 
-
-//$model = new \MVC\BindingModels\Halls\HallsBindingModel('proba',325);
-//
-//\MVC\Models\HallsRepository::create()->add($model);
-//\MVC\Models\HallsRepository::save();
-
-////
-//$probaHalls = \MVC\Models\HallsRepository::create()->orderByDescending(\MVC\BindingModels\Halls\HallsBindingModel::COL_ID)->findAll();
-//
-//var_dump($probaHalls);
+$roleHall = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\HallsController");
+$configRoleHall = $roleHall->matchAnnotation();
+if($configRoleHall[$requestString]!==null){
+    if($configRoleHall[$requestString]!=$isInRole["name"]){
+        header('Location: authorization');
+    }
+}
 
 
-//$confer = \MVC\Models\ConferenceRepository::create()->filterByIdForDelete(22)->delete();
-//var_dump($confer);
+$hallAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\HallsController");
+$configHallAuto = $hallAuthorization->matchAnnotation();
+if($configHallAuto[$requestString]){
+    checkUserId();
+}
 
-//$bindingModel = new \MVC\BindingModels\ConferenceUser\ConferenceUserBindingModel(3,4);
-//
-//\MVC\Models\ConferenceUserRepository::create()->add($bindingModel);
-//\MVC\Models\ConferenceUserRepository::save();
-//
-//$proba = \MVC\Models\ConferenceUserRepository::create()->deleteFilter(27,12)->delete();
-//var_dump($proba);
 
-//$result = \MVC\Models\ConferenceUserRepository::create()->filterByUserId(27)->filterByConferenceId(10)->findOne();
-//var_dump($result);
+$routeHall = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\HallsController");
+$configUrlHall = $routeHall->matchAnnotation();
+if($configUrlHall[$requestString]!==null){
+    $uriParamsHall = explode("/", $configUrlHall[$requestString]);
+    $controller = $uriParamsHall[0];
+    $action = $uriParamsHall[1];
+}
 
-//$result = \MVC\Models\ConferenceUserRepository::create()->groupFilter(3)->findConferenceCount();
-//var_dump($result->getCountUsers());
-//
-//
-//$result = \MVC\Models\LectorConferenceRepository::create()->deleteFilter(6,3)->delete();
-//
-//var_dump($result);
-//
-//$result = \MVC\Models\RoleUserRepository::create()->deleteFilter(6,1)->delete();
-//var_dump($result);
+
+
+//HallController End
+
+
+//UserController start
 
 $role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
 $configRole = $role->matchAnnotation();
-
-$isInRole = \MVC\Models\IdentityUser::create()->inRole($_SESSION['id']);
-
 if($configRole[$requestString]!==null){
     if($configRole[$requestString]!=$isInRole["name"]){
         header('Location: authorization');
     }
 }
 
-
-
 $authorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\UsersController");
 $configAuto = $authorization->matchAnnotation();
-
 if($configAuto[$requestString]){
-   $userId =  \MVC\HttpContext\HttpContext::create()->getIdentity()->getId();
-    if($userId===null){
-        header('Location: login');
-    }
-
+    checkUserId();
 }
 
 $route = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\UsersController");
@@ -110,7 +86,22 @@ if($configUrl[$requestString]!==null){
 }
 
 
+
+//UserController End
+
 $app = new \MVC\Application($controller, $action, $requestParams);
 $app->start();
+
+
+
+
+//For All Controllers
+
+function checkUserId(){
+    $userId =  \MVC\HttpContext\HttpContext::create()->getIdentity()->getId();
+    if($userId===null){
+        header('Location: login');
+    }
+}
 
 
