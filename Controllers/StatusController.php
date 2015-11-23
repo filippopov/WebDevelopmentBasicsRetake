@@ -18,6 +18,8 @@ use MVC\ViewModels\StatusViewModel;
 class StatusController extends Controller {
 
     /**
+     * @return View
+     * @throws \Exception
      * @Authorization()
      */
     public function allStatus(){
@@ -36,7 +38,10 @@ class StatusController extends Controller {
     }
 
     /**
+     * @return View
+     * @throws \Exception
      * @Role(admin)
+     * @Authorization()
      */
     public function addStatus(){
 
@@ -60,7 +65,12 @@ class StatusController extends Controller {
         return new View();
     }
 
-
+    /**
+     * @param $id
+     * @return View
+     * @Role(admin)
+     * @Authorization()
+     */
     public function editStatus($id){
         $status = StatusRepository::create()->filterById($id)->findOne();
 
@@ -91,18 +101,15 @@ class StatusController extends Controller {
         return new View($statusViewModel);
     }
 
-
+    /**
+     * @param $id
+     * @Role(admin)
+     * @Authorization()
+     */
     public function delete($id){
         StatusRepository::create()->filterById($id)->delete();
     }
 
-    public function login(){
-        return new View();
-    }
-
-    public function authorization(){
-        return new View();
-    }
 
     /**
      * @ROUTE(st/stroute)

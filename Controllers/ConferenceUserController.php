@@ -24,7 +24,11 @@ use MVC\ViewModels\HallsViewModel;
 use MVC\ViewModels\LectorConferenceViewModel;
 
 class ConferenceUserController extends Controller{
-
+    /**
+     * @param $conferenceId
+     * @return View
+     * @Authorization()
+     */
     public function signInConference($conferenceId){
         $viewModel = new ConferenceUserInformation();
         $userId = HttpContext::create()->getIdentity()->getId();
@@ -102,6 +106,11 @@ class ConferenceUserController extends Controller{
         return new View($viewModel);
     }
 
+    /**
+     * @param $conferenceId
+     * @return View
+     * @Authorization()
+     */
     public function signOutConference($conferenceId){
         $viewModel = new ConferenceUserInformation();
         $userId = HttpContext::create()->getIdentity()->getId();
@@ -117,6 +126,10 @@ class ConferenceUserController extends Controller{
         return new View($viewModel);
     }
 
+    /**
+     * @return View
+     * @Authorization()
+     */
     public function allConferencesOfOneUser(){
         $userId = HttpContext::create()->getIdentity()->getId();
         $conferencesViewModel = [];
@@ -138,6 +151,12 @@ class ConferenceUserController extends Controller{
 
     }
 
+    /**
+     * @param $conferenceId
+     * @return View
+     * @Authorization()
+     * @Role(admin)
+     */
     public function allUsersSignInForThisConference($conferenceId){
         $usersInConference = ConferenceUserRepository::create()->filterByConferenceId($conferenceId)->findAll();
         $allViewModels = [];
@@ -183,5 +202,11 @@ class ConferenceUserController extends Controller{
     }
 
 
+    /**
+     * @ROUTE(confuser/co)
+     */
+    public function test(){
+        echo "Hi from conferenceUser/test";
+    }
 
 } 

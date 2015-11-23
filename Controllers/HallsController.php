@@ -18,6 +18,8 @@ use MVC\ViewModels\HallsViewModel;
 class HallsController extends Controller {
 
     /**
+     * @return View
+     * @throws \Exception
      * @Authorization()
      */
     public function allHalls(){
@@ -37,7 +39,10 @@ class HallsController extends Controller {
     }
 
     /**
+     * @return View
+     * @throws \Exception
      * @Role(admin)
+     * @Authorization()
      */
     public function addHalls(){
 
@@ -62,7 +67,12 @@ class HallsController extends Controller {
         return new View();
     }
 
-
+    /**
+     * @param $id
+     * @return View
+     * @Role(admin)
+     * @Authorization()
+     */
     public function editHall($id){
         $hall = HallsRepository::create()->filterById($id)->findOne();
 
@@ -95,17 +105,13 @@ class HallsController extends Controller {
         return new View($hallViewModel);
     }
 
-
+    /**
+     * @param $id
+     * @Role(admin)
+     * @Authorization()
+     */
     public function delete($id){
         HallsRepository::create()->filterById($id)->delete();
-    }
-
-    public function login(){
-        return new View();
-    }
-
-    public function authorization(){
-        return new View();
     }
 
     /**

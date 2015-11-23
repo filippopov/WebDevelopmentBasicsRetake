@@ -31,23 +31,86 @@ $action = array_shift($requestParams);
 $isInRole = \MVC\Models\IdentityUser::create()->inRole($_SESSION['id']);
 $request = $controller.'/'.$action;
 
+//LectorConferenceController start
+
+$lectorConfAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\LectorConferenceController");
+$configLecConfAuto = $lectorConfAuthorization->matchAnnotation();
+if($configLecConfAuto[$request]){
+    checkUserId();
+}
+
+$lectorCoUser = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\LectorConferenceController");
+$configLecctorConferenceUser = $lectorCoUser->matchAnnotation();
+if($configLecctorConferenceUser[$request]!==null){
+    $uriParamsHall = explode("/", $configLecctorConferenceUser[$request]);
+    $controller = $uriParamsHall[0];
+    $action = $uriParamsHall[1];
+}
+
+//LectorConferenceController end
+
+//RoleUserController start
+$roleUserAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\RoleUserController");
+$configRoleUserAuto = $roleUserAuthorization->matchAnnotation();
+if($configRoleUserAuto[$request]){
+    checkUserId();
+}
+
+$routeRoleUser = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\RoleUserController");
+$configRoleUser = $routeRoleUser->matchAnnotation();
+if($configRoleUser[$request]!==null){
+    $uriParamsHall = explode("/", $configRoleUser[$request]);
+    $controller = $uriParamsHall[0];
+    $action = $uriParamsHall[1];
+}
+
+//RoleUserController end
+
+
+//ConferenceUserController start
+$conferenceUserAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\ConferenceUserController");
+$configConfUserAuto = $conferenceUserAuthorization->matchAnnotation();
+if($configConfUserAuto[$request]){
+    checkUserId();
+}
+
+$roleConferenceUser = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\ConferenceUserController");
+$configRoleConferenceUser = $roleConferenceUser->matchAnnotation();
+if($configRoleConferenceUser[$request]!==null){
+    if($configRoleConferenceUser[$request]!=$isInRole["name"]){
+        header('Location: http://localhost:8004/Web-Development-Basics-Retake/users/authorization');
+    }
+}
+
+$routeConferenceUser = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\ConferenceUserController");
+$configUrlConfUser = $routeConferenceUser->matchAnnotation();
+if($configUrlConfUser[$request]!==null){
+    $uriParamsHall = explode("/", $configUrlConfUser[$request]);
+    $controller = $uriParamsHall[0];
+    $action = $uriParamsHall[1];
+}
+
+//ConferenceUserController end
+
 
 
 //ConferenceController start
-
-$roleConference = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\ConferenceController");
-$configRoleConference = $roleConference->matchAnnotation();
-if($configRoleConference[$request]!==null){
-    if($configRoleConference[$request]!=$isInRole["name"]){
-        header('Location: authorization');
-    }
-}
 
 $conferenceAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\ConferenceController");
 $configConfAuto = $conferenceAuthorization->matchAnnotation();
 if($configConfAuto[$request]){
     checkUserId();
 }
+
+$roleConference = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\ConferenceController");
+$configRoleConference = $roleConference->matchAnnotation();
+if($configRoleConference[$request]!==null){
+    if($configRoleConference[$request]!=$isInRole["name"]){
+        header('Location: http://localhost:8004/Web-Development-Basics-Retake/users/authorization');
+    }
+}
+
+
 
 $routeConference = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\ConferenceController");
 $configUrlConf = $routeConference->matchAnnotation();
@@ -61,24 +124,27 @@ if($configUrlConf[$request]!==null){
 
 
 //StatusController start
-$roleStatus = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\StatusController");
-$configRoleStatus = $roleStatus->matchAnnotation();
-if($configRoleStatus[$requestString]!==null){
-    if($configRoleStatus[$requestString]!=$isInRole["name"]){
-        header('Location: authorization');
-    }
-}
 
 $statusAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\StatusController");
 $configStatusAuto = $statusAuthorization->matchAnnotation();
-if($configStatusAuto[$requestString]){
+if($configStatusAuto[$request]){
     checkUserId();
 }
 
+
+$roleStatus = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\StatusController");
+$configRoleStatus = $roleStatus->matchAnnotation();
+if($configRoleStatus[$request]!==null){
+    if($configRoleStatus[$request]!=$isInRole["name"]){
+        header('Location: http://localhost:8004/Web-Development-Basics-Retake/users/authorization');
+    }
+}
+
+
 $routeStatus = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\StatusController");
 $configUrlStatus = $routeStatus->matchAnnotation();
-if($configUrlStatus[$requestString]!==null){
-    $uriParamsHall = explode("/", $configUrlStatus[$requestString]);
+if($configUrlStatus[$request]!==null){
+    $uriParamsHall = explode("/", $configUrlStatus[$request]);
     $controller = $uriParamsHall[0];
     $action = $uriParamsHall[1];
 }
@@ -87,26 +153,28 @@ if($configUrlStatus[$requestString]!==null){
 
 //HallController start
 
+$hallAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\HallsController");
+$configHallAuto = $hallAuthorization->matchAnnotation();
+if($configHallAuto[$request]){
+    checkUserId();
+}
+
 $roleHall = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\HallsController");
 $configRoleHall = $roleHall->matchAnnotation();
-if($configRoleHall[$requestString]!==null){
-    if($configRoleHall[$requestString]!=$isInRole["name"]){
-        header('Location: authorization');
+if($configRoleHall[$request]!==null){
+    if($configRoleHall[$request]!=$isInRole["name"]){
+        header('Location: http://localhost:8004/Web-Development-Basics-Retake/users/authorization');
     }
 }
 
 
-$hallAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\HallsController");
-$configHallAuto = $hallAuthorization->matchAnnotation();
-if($configHallAuto[$requestString]){
-    checkUserId();
-}
+
 
 
 $routeHall = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\HallsController");
 $configUrlHall = $routeHall->matchAnnotation();
-if($configUrlHall[$requestString]!==null){
-    $uriParamsHall = explode("/", $configUrlHall[$requestString]);
+if($configUrlHall[$request]!==null){
+    $uriParamsHall = explode("/", $configUrlHall[$request]);
     $controller = $uriParamsHall[0];
     $action = $uriParamsHall[1];
 }
@@ -118,24 +186,27 @@ if($configUrlHall[$requestString]!==null){
 
 //UserController start
 
-$role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
-$configRole = $role->matchAnnotation();
-if($configRole[$requestString]!==null){
-    if($configRole[$requestString]!=$isInRole["name"]){
-        header('Location: authorization');
-    }
-}
-
 $authorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\UsersController");
 $configAuto = $authorization->matchAnnotation();
-if($configAuto[$requestString]){
+if($configAuto[$request]){
     checkUserId();
 }
 
+
+$role = new \MVC\Annotations\RolesAnnotationClass("MVC\Controllers\UsersController");
+$configRole = $role->matchAnnotation();
+if($configRole[$request]!==null){
+    if($configRole[$request]!=$isInRole["name"]){
+        header('Location: http://localhost:8004/Web-Development-Basics-Retake/users/authorization');
+    }
+}
+
+
+
 $route = new \MVC\Annotations\RouteAnnotationClass("MVC\Controllers\UsersController");
 $configUrl = $route->matchAnnotation();
-if($configUrl[$requestString]!==null){
-    $uriParams = explode("/", $configUrl[$requestString]);
+if($configUrl[$request]!==null){
+    $uriParams = explode("/", $configUrl[$request]);
     $controller = $uriParams[0];
     $action = $uriParams[1];
 }
@@ -156,7 +227,7 @@ $app->start();
 function checkUserId(){
     $userId =  \MVC\HttpContext\HttpContext::create()->getIdentity()->getId();
     if($userId===null){
-        header('Location: http://localhost:8004/Web-Development-Basics-Retake/conference/login');
+        header('Location: http://localhost:8004/Web-Development-Basics-Retake/users/login');
     }
 }
 

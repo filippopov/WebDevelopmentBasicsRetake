@@ -14,6 +14,9 @@ use MVC\ViewModels\RoleUserViewModel;
 class UsersController extends Controller
 {
 
+    /**
+     * @return View
+     */
     public function login()
     {
         $viewModel = new LoginInformation();
@@ -32,6 +35,11 @@ class UsersController extends Controller
         return new View($viewModel);
     }
 
+    /**
+     * @param string $user
+     * @param string $pass
+     * @throws \Exception
+     */
     private function initLogin(string $user, string $pass)
     {
         $model = new UserBindingModel($user,$pass);
@@ -41,6 +49,9 @@ class UsersController extends Controller
         header("Location: profile");
     }
 
+    /**
+     * @return View
+     */
     public function register()
     {
         $viewModel = new RegisterInformation();
@@ -69,6 +80,7 @@ class UsersController extends Controller
     }
 
     /**
+     * @return View
      * @Authorization()
      */
     public function profile()
@@ -90,6 +102,10 @@ class UsersController extends Controller
         return new View($userViewModel);
     }
 
+    /**
+     * @return View
+     * @Authorization()
+     */
     public function edit(){
         $userInfo = IdentityUser::create()->filterById($_SESSION['id'])->findOne();
 
@@ -134,6 +150,7 @@ class UsersController extends Controller
 
 
     /**
+     * @return View
      * @Role(admin)
      */
     public function adminpanel(){

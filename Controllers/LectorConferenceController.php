@@ -14,13 +14,30 @@ use MVC\Models\LectorConferenceRepository;
 
 class LectorConferenceController extends Controller {
 
+    /**
+     * @param $lectorId
+     * @param $conferenceId
+     * @Authorization()
+     */
     public function addLector($lectorId,$conferenceId){
         $model = new LectorConferenceBindingModel($lectorId, $conferenceId);
         LectorConferenceRepository::create()->add($model);
         LectorConferenceRepository::save();
     }
 
+    /**
+     * @param $lectorId
+     * @param $conferenceId
+     * @Authorization()
+     */
     public function removeLector($lectorId, $conferenceId){
         LectorConferenceRepository::create()->deleteFilter($lectorId,$conferenceId)->delete();
+    }
+
+    /**
+     * @ROUTE(lec/conf)
+     */
+    public function test(){
+        echo "Echo from LectorConference";
     }
 } 

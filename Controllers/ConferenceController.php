@@ -25,6 +25,8 @@ use MVC\ViewModels\StatusViewModel;
 class ConferenceController extends Controller {
 
     /**
+     * @return View
+     * @throws \Exception
      * @Authorization()
      */
     public function allConference(){
@@ -50,7 +52,10 @@ class ConferenceController extends Controller {
     }
 
     /**
+     * @return View
+     * @throws \Exception
      * @Role(admin)
+     * @Authorization()
      */
     public function addConference(){
         $errorModel = new ConferenceInformation();
@@ -132,6 +137,12 @@ class ConferenceController extends Controller {
 
     }
 
+    /**
+     * @param $id
+     * @return View
+     * @Role(admin)
+     * @Authorization()
+     */
     public function editConference($id){
         $errorModel = new ConferenceInformation();
         $conference = ConferenceRepository::create()->filterById($id)->findOne();
@@ -229,6 +240,11 @@ class ConferenceController extends Controller {
         return new View($allModels);
     }
 
+    /**
+     * @param $id
+     * @Role(admin)
+     * @Authorization()
+     */
     public function delete($id){
         ConferenceRepository::create()->filterByIdForDelete($id)->delete();
     }
@@ -273,14 +289,6 @@ class ConferenceController extends Controller {
         $this->escapeAll($allViewModel);
 
         return new View($allViewModel);
-    }
-
-    public function login(){
-        return new View();
-    }
-
-    public function authorization(){
-        return new View();
     }
 
     /**
