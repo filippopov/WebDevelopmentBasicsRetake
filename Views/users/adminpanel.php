@@ -1,27 +1,48 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<a href="http://localhost:8004/Web-Development-Basics-Retake/users/profile">Profile</a>
+
+<div class="container">
+    <div class="tab-content">
+        <div class="tab-pane active" id="daftar">
+            <br/>
+            <p><a class="btn btn-success"href="http://localhost:8004/Web-Development-Basics-Retake/users/profile">Back To Profile</a></p>
+            <br/>
+            <div class="table-responsive">
 <?php
 \MVC\ViewHelpers\GenerateTable::create()->create()
-    ->addAttribute('id', 'names')
-    ->addAttribute('class', 'red-menu')
-    ->addAttribute('border','1px')
+    ->addAttribute('class','table table-hover')
     ->setHeaders(['Id','Name','Delete','Admin Role','Remove Admin Role'])
     ->setContentUser($model[0])
     ->render();
 
 ?>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="content"></div>
+
+<div class="container">
+    <div class="tab-content">
+        <div class="tab-pane active" id="daftar">
+            <br/>
+            <br/>
+            <div class="table-responsive">
 
 <?php
 \MVC\ViewHelpers\GenerateTable::create()->create()
-    ->addAttribute('id', 'names')
-    ->addAttribute('class', 'red-menu')
-    ->addAttribute('border','1px')
+    ->addAttribute('class','table table-hover')
     ->setHeaders(['AdminNames'])
     ->setContentAdmins($model[1])
     ->render();
 
 ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $('.delete').click(function(e){
