@@ -46,19 +46,32 @@ class LectorConferenceRepository {
         return self::$inst;
     }
 
-    public function filterByLectorId($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterByLectorId(int $id){
         $this->where .=" AND lc.lector_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function filterByConferenceId($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterByConferenceId(int $id){
         $this->where .=" AND lc.conference_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function deleteFilter($lectorId,$conferenceId){
+    /**
+     * @param int $lectorId
+     * @param int $conferenceId
+     * @return $this
+     */
+    public function deleteFilter(int $lectorId,int $conferenceId){
         $this->where .=" AND lector_id = ? AND conference_id = ?";
         $this->placeholders[] = $lectorId;
         $this->placeholders[] = $conferenceId;
@@ -151,7 +164,10 @@ join users u on u.id = lc.lector_id" . $this->where .$this->order ." LIMIT 1";
         return true;
     }
 
-
+    /**
+     * @param LectorConferenceBindingModel $model
+     * @throws \Exception
+     */
     private static function insert(LectorConferenceBindingModel $model){
 
         $db = Database::getInstance('app');

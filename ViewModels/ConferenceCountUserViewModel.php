@@ -20,7 +20,7 @@ class ConferenceCountUserViewModel {
 
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getCountUsers()
     {

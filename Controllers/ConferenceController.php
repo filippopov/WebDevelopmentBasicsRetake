@@ -138,12 +138,12 @@ class ConferenceController extends Controller {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return View
      * @Role(admin)
      * @Authorization()
      */
-    public function editConference($id){
+    public function editConference(int $id){
         $errorModel = new ConferenceInformation();
         $conference = ConferenceRepository::create()->filterById($id)->findOne();
 
@@ -241,20 +241,20 @@ class ConferenceController extends Controller {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @Role(admin)
      * @Authorization()
      */
-    public function delete($id){
+    public function delete(int $id){
         ConferenceRepository::create()->filterByIdForDelete($id)->delete();
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return View
      * @@Authorization()
      */
-    public function conferenceInfo($id){
+    public function conferenceInfo(int $id){
         $conference = ConferenceRepository::create()->filterById($id)->findOne();
         $hall = HallsRepository::create()->filterByName($conference->getHallsName())->findOne();
 

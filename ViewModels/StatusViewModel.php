@@ -13,7 +13,11 @@ class StatusViewModel {
     private $id;
     private $name;
 
-    function __construct($name, $id = null)
+    /**
+     * @param string $name
+     * @param null $id
+     */
+    function __construct(string $name, $id = null)
     {
         $this->setId($id)->setName($name);
     }
@@ -28,7 +32,8 @@ class StatusViewModel {
     }
 
     /**
-     * @param mixed $id
+     * @param $id
+     * @return $this
      */
     public function setId($id)
     {
@@ -45,9 +50,10 @@ class StatusViewModel {
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
+     * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
         return $this;

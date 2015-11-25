@@ -40,7 +40,7 @@ class UsersController extends Controller
      * @param string $pass
      * @throws \Exception
      */
-    private function initLogin(string $user, string $pass)
+    private function initLogin(string $user,string  $pass)
     {
         $model = new UserBindingModel($user,$pass);
         $userId = IdentityUser::create()->login($model);
@@ -190,7 +190,10 @@ class UsersController extends Controller
         return new View();
     }
 
-    public function delete($id){
+    /**
+     * @param int $id
+     */
+    public function delete(int $id){
         IdentityUser::create()->filterById($id)->delete();
     }
 

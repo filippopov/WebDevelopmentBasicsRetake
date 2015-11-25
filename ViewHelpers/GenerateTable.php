@@ -21,12 +21,21 @@ class GenerateTable {
         return new self();
     }
 
-    public function addAttribute($attributeName, $attributeValue){
+    /**
+     * @param string $attributeName
+     * @param string $attributeValue
+     * @return $this
+     */
+    public function addAttribute(string $attributeName,string $attributeValue){
         $this->attributes[$attributeName]=$attributeValue;
 
         return $this;
     }
 
+    /**
+     * @param array $valueContent
+     * @return $this
+     */
     public function setHeaders($valueContent=[]){
         $this->options="<tr>";
         foreach($valueContent as $v){
@@ -37,7 +46,11 @@ class GenerateTable {
         return $this;
     }
 
-    public function setContentUser($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentUser(array $content)
     {
 
         foreach($content as $v){
@@ -53,8 +66,11 @@ class GenerateTable {
         return $this;
     }
 
-
-    public function setContentConference($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentConference(array $content)
     {
 
         foreach($content as $v){
@@ -74,6 +90,10 @@ class GenerateTable {
         return $this;
     }
 
+    /**
+     * @param $v
+     * @return $this
+     */
     public function setContentConferenceOneRow($v)
     {
 
@@ -92,7 +112,11 @@ class GenerateTable {
         return $this;
     }
 
-    public function setContentHall($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentHall(array $content)
     {
 
         foreach($content as $v){
@@ -107,7 +131,11 @@ class GenerateTable {
         return $this;
     }
 
-    public function setContentYourConferences($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentYourConferences(array $content)
     {
 
         foreach($content as $v){
@@ -121,7 +149,11 @@ class GenerateTable {
         return $this;
     }
 
-    public function setContentLectors($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentLectors(array $content)
     {
 
         foreach($content as $v){
@@ -133,7 +165,11 @@ class GenerateTable {
         return $this;
     }
 
-    public function setContentAdmins($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentAdmins(array $content)
     {
 
         foreach($content as $v){
@@ -145,7 +181,11 @@ class GenerateTable {
         return $this;
     }
 
-    public function setContentUsersInConference($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentUsersInConference(array $content)
     {
 
         foreach($content as $v){
@@ -160,8 +200,11 @@ class GenerateTable {
     }
 
 
-
-    public function setContentStatus($content)
+    /**
+     * @param array $content
+     * @return $this
+     */
+    public function setContentStatus(array $content)
     {
 
         foreach($content as $v){

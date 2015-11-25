@@ -17,7 +17,15 @@ class ConferenceUserViewModel {
     private $conferenceStart;
     private $conferenceEnd;
 
-    function __construct($userId, $conferenceId,$conferenceStart=null, $conferenceEnd=null,  $conferenceName=null,   $userName=null)
+    /**
+     * @param $userId
+     * @param $conferenceId
+     * @param null $conferenceStart
+     * @param null $conferenceEnd
+     * @param null $conferenceName
+     * @param null $userName
+     */
+    function __construct( $userId,  $conferenceId, $conferenceStart=null, $conferenceEnd=null,  $conferenceName=null,   $userName=null)
     {
         $this->setUserId($userId)->setConferenceId($conferenceId)->
         setConferenceStart($conferenceStart)->setConferenceEnd($conferenceEnd)->
@@ -53,7 +61,7 @@ class ConferenceUserViewModel {
     /**
      * @param mixed $conferenceStart
      */
-    public function setConferenceStart($conferenceStart)
+    public function setConferenceStart( $conferenceStart)
     {
         $this->conferenceStart = $conferenceStart;
         return $this;
@@ -70,7 +78,7 @@ class ConferenceUserViewModel {
     /**
      * @param mixed $conferenceId
      */
-    public function setConferenceId($conferenceId)
+    public function setConferenceId( $conferenceId)
     {
         $this->conferenceId = $conferenceId;
         return $this;
@@ -87,7 +95,7 @@ class ConferenceUserViewModel {
     /**
      * @param mixed $userName
      */
-    public function setUserName($userName)
+    public function setUserName( $userName)
     {
         $this->userName = $userName;
         return $this;
@@ -104,7 +112,7 @@ class ConferenceUserViewModel {
     /**
      * @param mixed $userId
      */
-    public function setUserId($userId)
+    public function setUserId( $userId)
     {
         $this->userId = $userId;
         return $this;
@@ -121,7 +129,7 @@ class ConferenceUserViewModel {
     /**
      * @param mixed $conferenceName
      */
-    public function setConferenceName($conferenceName)
+    public function setConferenceName( $conferenceName)
     {
         $this->conferenceName = $conferenceName;
         return $this;

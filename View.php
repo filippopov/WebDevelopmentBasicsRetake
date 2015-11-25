@@ -12,6 +12,7 @@ class View
     const VIEW_FOLDER = 'Views';
     const VIEW_EXTENSION = '.php';
 
+
     public function __construct()
     {
         $params = func_get_args();
@@ -28,6 +29,9 @@ class View
         }
     }
 
+    /**
+     * @param $model
+     */
     private function initModelOnly($model)
     {
         require self::VIEW_FOLDER
@@ -38,7 +42,11 @@ class View
                 . self::VIEW_EXTENSION;
     }
 
-    private function initModelView($view, $model)
+    /**
+     * @param $view
+     * @param $model
+     */
+    private function initModelView($view,$model)
     {
         require self::VIEW_FOLDER
                 . DIRECTORY_SEPARATOR

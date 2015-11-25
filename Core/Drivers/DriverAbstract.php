@@ -9,7 +9,13 @@ abstract class DriverAbstract
     protected $dbName;
     protected $host;
 
-    public function __construct($user, $pass, $dbName, $host = null)
+    /**
+     * @param string $user
+     * @param string $pass
+     * @param string $dbName
+     * @param null $host
+     */
+    public function __construct(string $user,string $pass,string $dbName, $host = null)
     {
         $this->user = $user;
         $this->pass = $pass;

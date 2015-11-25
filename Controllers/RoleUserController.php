@@ -15,22 +15,22 @@ use MVC\Models\RoleUserRepository;
 class RoleUserController extends Controller {
 
     /**
-     * @param $userId
-     * @param $roleId
+     * @param int $userId
+     * @param int $roleId
      * @Authorization()
      */
-    public function makeUserAdmin($userId,$roleId){
+    public function makeUserAdmin(int $userId,int $roleId){
         $model = new RoleUserBindingModel($userId,$roleId);
         RoleUserRepository::create()->add($model);
         RoleUserRepository::save();
     }
 
     /**
-     * @param $userId
-     * @param $roleId
+     * @param int $userId
+     * @param int $roleId
      * @Authorization()
      */
-    public function makeAdminUser($userId,$roleId){
+    public function makeAdminUser(int $userId,int $roleId){
         RoleUserRepository::create()->deleteFilter($userId,$roleId)->delete();
     }
 

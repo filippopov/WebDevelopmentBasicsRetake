@@ -16,10 +16,10 @@ class DriverFactory
      * @throws \Exception
      */
     public static function create(
-        $driver,
-        $user,
-        $pass,
-        $dbName,
+       string $driver,
+       string $user,
+       string $pass,
+       string $dbName,
         $host = null
     ) {
         switch ($driver) {

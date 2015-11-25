@@ -47,24 +47,32 @@ class HallsRepository {
         return self::$inst;
     }
 
-    public function filterById($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterById(int $id){
         $this->where .=" AND id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function filterByName($name){
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function filterByName(string $name){
         $this->where .=" AND name = ?";
         $this->placeholders[] = $name;
         return $this;
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function orderBy($column){
+    public function orderBy(string $column){
         if(!$this->isColumnAllowed($column)){
             throw new \Exception("Column not found");
         }
@@ -77,11 +85,11 @@ class HallsRepository {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function orderByDescending($column){
+    public function orderByDescending(string $column){
         if(!$this->isColumnAllowed($column)){
             throw new \Exception("Column not found");
         }
@@ -96,11 +104,11 @@ class HallsRepository {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function thenBy($column){
+    public function thenBy(string $column){
         if(empty($this->order)){
             throw new \Exception("Cannot do secondary order, because you don't have a primary order");
         }
@@ -115,11 +123,11 @@ class HallsRepository {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function thenByDescending($column){
+    public function thenByDescending(string $column){
         if(empty($this->order)){
             throw new \Exception("Cannot do secondary order, because you don't have a primary order");
         }
@@ -194,6 +202,10 @@ class HallsRepository {
         return $result->rowCount() > 0;
     }
 
+    /**
+     * @param HallsBindingModel $halls
+     * @throws \Exception
+     */
     public static function add(HallsBindingModel $halls){
         if($halls->getId()){
             throw new \Exception('This entity is not new');
@@ -220,6 +232,10 @@ class HallsRepository {
         return true;
     }
 
+    /**
+     * @param HallsViewModel $model
+     * @throws \Exception
+     */
     private static function update(HallsViewModel $model){
         $db = Database::getInstance('app');
         $query = "UPDATE halls SET name = ?, capacity = ? WHERE id = ?";
@@ -233,6 +249,10 @@ class HallsRepository {
         );
     }
 
+    /**
+     * @param HallsBindingModel $model
+     * @throws \Exception
+     */
     private static function insert(HallsBindingModel $model){
 
         $db = Database::getInstance('app');
@@ -246,7 +266,12 @@ class HallsRepository {
         );
     }
 
-    public function exists($name)
+    /**
+     * @param string $name
+     * @return bool
+     * @throws \Exception
+     */
+    public function exists(string $name)
     {
         $db = Database::getInstance('app');
 
@@ -256,7 +281,11 @@ class HallsRepository {
         return $result->rowCount() > 0;
     }
 
-    public function isColumnAllowed($column){
+    /**
+     * @param string $column
+     * @return bool
+     */
+    public function isColumnAllowed(string $column){
         $refc = new \ReflectionClass('MVC\BindingModels\Halls\HallsBindingModel');
         $consts = $refc->getConstants();
 

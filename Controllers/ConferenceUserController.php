@@ -25,11 +25,11 @@ use MVC\ViewModels\LectorConferenceViewModel;
 
 class ConferenceUserController extends Controller{
     /**
-     * @param $conferenceId
+     * @param int $conferenceId
      * @return View
      * @Authorization()
      */
-    public function signInConference($conferenceId){
+    public function signInConference(int $conferenceId){
         $viewModel = new ConferenceUserInformation();
         $userId = HttpContext::create()->getIdentity()->getId();
         $conferenceRepository = ConferenceRepository::create()->filterById($conferenceId)->findOne();
@@ -107,11 +107,11 @@ class ConferenceUserController extends Controller{
     }
 
     /**
-     * @param $conferenceId
+     * @param int $conferenceId
      * @return View
      * @Authorization()
      */
-    public function signOutConference($conferenceId){
+    public function signOutConference(int $conferenceId){
         $viewModel = new ConferenceUserInformation();
         $userId = HttpContext::create()->getIdentity()->getId();
         if(isset($_POST['sign-out'])){
@@ -134,7 +134,10 @@ class ConferenceUserController extends Controller{
         $userId = HttpContext::create()->getIdentity()->getId();
         $conferencesViewModel = [];
         $conferences = ConferenceUserRepository::create()->filterByUserId($userId)->findAll();
-
+        $checkArray = empty($conferences);
+        if($checkArray){
+            return new View();
+        }
         foreach($conferences as $conference){
             $conferencesViewModel[]= new ConferenceUserViewModel(
                 $conference->getUserId(),
@@ -152,12 +155,12 @@ class ConferenceUserController extends Controller{
     }
 
     /**
-     * @param $conferenceId
+     * @param int $conferenceId
      * @return View
      * @Authorization()
      * @Role(admin)
      */
-    public function allUsersSignInForThisConference($conferenceId){
+    public function allUsersSignInForThisConference(int $conferenceId){
         $usersInConference = ConferenceUserRepository::create()->filterByConferenceId($conferenceId)->findAll();
         $allViewModels = [];
         $usersInConferenceViewModel = [];
@@ -190,7 +193,7 @@ class ConferenceUserController extends Controller{
         return new View($allViewModels);
     }
 
-    private function check_in_range($start_date, $end_date, $date_from_user)
+    private function check_in_range(string $start_date,string $end_date,string $date_from_user)
     {
         // Convert to timestamp
         $start_ts = strtotime($start_date);

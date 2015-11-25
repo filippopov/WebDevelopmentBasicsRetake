@@ -12,7 +12,12 @@ class User
     private $user;
     private $pass;
 
-    public function __construct($user, $pass,$id = null)
+    /**
+     * @param $user
+     * @param $pass
+     * @param null $id
+     */
+    public function __construct( $user, $pass,$id = null)
     {
         $this->setId($id)
             ->setUsername($user)
@@ -29,7 +34,7 @@ class User
     }
 
     /**
-     * @param mixed $id
+     * @param $id
      * @return $this
      */
     private function setId($id)
@@ -50,7 +55,7 @@ class User
      * @param mixed $user
      * @return $this
      */
-    public function setUsername($user)
+    public function setUsername( $user)
     {
         $this->user = $user;
         return $this;
@@ -68,7 +73,7 @@ class User
      * @param mixed $pass
      * @return $this
      */
-    public function setPass($pass)
+    public function setPass( $pass)
     {
         $this->pass = $pass;
         return $this;

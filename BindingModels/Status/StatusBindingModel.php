@@ -16,7 +16,11 @@ class StatusBindingModel {
     private $id;
     private $name;
 
-    function __construct($name,$id = null)
+    /**
+     * @param string $name
+     * @param null $id
+     */
+    function __construct(string $name,$id = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -32,7 +36,7 @@ class StatusBindingModel {
     }
 
     /**
-     * @param mixed $id
+     * @param $id
      */
     public function setId($id)
     {
@@ -48,9 +52,9 @@ class StatusBindingModel {
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }

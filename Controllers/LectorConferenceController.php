@@ -15,22 +15,22 @@ use MVC\Models\LectorConferenceRepository;
 class LectorConferenceController extends Controller {
 
     /**
-     * @param $lectorId
-     * @param $conferenceId
+     * @param int $lectorId
+     * @param int $conferenceId
      * @Authorization()
      */
-    public function addLector($lectorId,$conferenceId){
+    public function addLector(int $lectorId,int $conferenceId){
         $model = new LectorConferenceBindingModel($lectorId, $conferenceId);
         LectorConferenceRepository::create()->add($model);
         LectorConferenceRepository::save();
     }
 
     /**
-     * @param $lectorId
-     * @param $conferenceId
+     * @param int $lectorId
+     * @param int $conferenceId
      * @Authorization()
      */
-    public function removeLector($lectorId, $conferenceId){
+    public function removeLector(int $lectorId,int $conferenceId){
         LectorConferenceRepository::create()->deleteFilter($lectorId,$conferenceId)->delete();
     }
 

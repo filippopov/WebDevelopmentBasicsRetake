@@ -47,36 +47,52 @@ class ConferenceRepository {
         return self::$inst;
     }
 
-    public function filterById($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterById(int $id){
         $this->where .=" AND c.id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function filterByIdForDelete($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterByIdForDelete(int $id){
         $this->where .=" AND id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function filterByName($name){
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function filterByName(string $name){
         $this->where .=" AND c.name = ?";
         $this->placeholders[] = $name;
         return $this;
     }
 
-    public function filterByNameForDelete($name){
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function filterByNameForDelete(string $name){
         $this->where .=" AND name = ?";
         $this->placeholders[] = $name;
         return $this;
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function orderBy($column){
+    public function orderBy(string $column){
         if(!$this->isColumnAllowed($column)){
             throw new \Exception("Column not found");
         }
@@ -89,11 +105,11 @@ class ConferenceRepository {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function orderByDescending($column){
+    public function orderByDescending(string $column){
         if(!$this->isColumnAllowed($column)){
             throw new \Exception("Column not found");
         }
@@ -108,11 +124,11 @@ class ConferenceRepository {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function thenBy($column){
+    public function thenBy(string $column){
         if(empty($this->order)){
             throw new \Exception("Cannot do secondary order, because you don't have a primary order");
         }
@@ -127,11 +143,11 @@ class ConferenceRepository {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function thenByDescending($column){
+    public function thenByDescending(string $column){
         if(empty($this->order)){
             throw new \Exception("Cannot do secondary order, because you don't have a primary order");
         }
@@ -267,6 +283,10 @@ left join conference_status cs on cs.id = c.status_id" . $this->where .$this->or
         );
     }
 
+    /**
+     * @param ConferenceBindingModels $conference
+     * @throws \Exception
+     */
     private static function insert(ConferenceBindingModels $conference){
 
         $db = Database::getInstance('app');
@@ -285,6 +305,11 @@ left join conference_status cs on cs.id = c.status_id" . $this->where .$this->or
         );
     }
 
+    /**
+     * @param $name
+     * @return bool
+     * @throws \Exception
+     */
     public function exists($name)
     {
         $db = Database::getInstance('app');
@@ -295,7 +320,11 @@ left join conference_status cs on cs.id = c.status_id" . $this->where .$this->or
         return $result->rowCount() > 0;
     }
 
-    private function isColumnAllowed($column){
+    /**
+     * @param string $column
+     * @return bool
+     */
+    private function isColumnAllowed(string $column){
         $refc = new \ReflectionClass('MVC\BindingModels\Users\UserBindingModel');
         $consts = $refc->getConstants();
 

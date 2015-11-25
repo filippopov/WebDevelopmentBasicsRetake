@@ -13,7 +13,11 @@ class RoleUserBindingModel {
     private $userId;
     private $roleId;
 
-    function __construct($userId, $roleId)
+    /**
+     * @param int $userId
+     * @param int $roleId
+     */
+    function __construct(int $userId,int $roleId)
     {
         $this->roleId = $roleId;
         $this->userId = $userId;
@@ -29,9 +33,9 @@ class RoleUserBindingModel {
     }
 
     /**
-     * @param mixed $roleId
+     * @param int $roleId
      */
-    public function setRoleId($roleId)
+    public function setRoleId(int $roleId)
     {
         $this->roleId = $roleId;
     }
@@ -45,9 +49,9 @@ class RoleUserBindingModel {
     }
 
     /**
-     * @param mixed $userId
+     * @param int $userId
      */
-    public function setUserId($userId)
+    public function setUserId(int $userId)
     {
         $this->userId = $userId;
     }

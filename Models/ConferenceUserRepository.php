@@ -48,25 +48,42 @@ class ConferenceUserRepository {
         return self::$inst;
     }
 
-    public function filterByUserId($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterByUserId(int $id){
         $this->where .=" AND uc.user_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function filterByConferenceId($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterByConferenceId(int $id){
         $this->where .=" AND uc.conference_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function groupFilter($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function groupFilter(int $id){
         $this->where .=" AND conference_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function deleteFilter($userId,$conferenceId){
+    /**
+     * @param int $userId
+     * @param int $conferenceId
+     * @return $this
+     */
+    public function deleteFilter(int $userId,int $conferenceId){
         $this->where .=" AND user_id = ? AND conference_id = ?";
         $this->placeholders[] = $userId;
         $this->placeholders[] = $conferenceId;
@@ -134,6 +151,10 @@ join users u on u.id = uc.user_id" . $this->where .$this->order ." LIMIT 1";
         return $confUser;
     }
 
+    /**
+     * @return ConferenceCountUserViewModel
+     * @throws \Exception
+     */
     public function findConferenceCount(){
         $db = Database::getInstance('app');
 
@@ -148,7 +169,12 @@ join users u on u.id = uc.user_id" . $this->where .$this->order ." LIMIT 1";
         return $confUser;
     }
 
-    public function findConferenceCountById($conferenceId){
+    /**
+     * @param int $conferenceId
+     * @return ConferenceCountUserViewModel
+     * @throws \Exception
+     */
+    public function findConferenceCountById(int $conferenceId){
         $db = Database::getInstance('app');
         $query = "SELECT count(user_id) as count FROM users_conference where conference_id = ? group by conference_id";
         $result = $db->prepare($query);
@@ -194,7 +220,10 @@ join users u on u.id = uc.user_id" . $this->where .$this->order ." LIMIT 1";
         return true;
     }
 
-
+    /**
+     * @param ConferenceUserBindingModel $model
+     * @throws \Exception
+     */
     private static function insert(ConferenceUserBindingModel $model){
 
         $db = Database::getInstance('app');

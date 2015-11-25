@@ -20,9 +20,18 @@ class ConferenceViewModel {
     private $statusName;
     private $creatorId;
 
-
-
-    function __construct($name, $creatorName,$startTime, $endTime,$numberOfBreaks, $hallsName, $statusName, $id = null, $creatorId = null )
+    /**
+     * @param string $name
+     * @param string $creatorName
+     * @param string $startTime
+     * @param string $endTime
+     * @param int $numberOfBreaks
+     * @param string $hallsName
+     * @param string $statusName
+     * @param null $id
+     * @param null $creatorId
+     */
+    function __construct(string $name,string $creatorName,string $startTime,string $endTime, int $numberOfBreaks,string $hallsName,string $statusName, $id = null, $creatorId = null )
     {
         $this->setId($id)->
         setName($name)->
@@ -60,9 +69,10 @@ class ConferenceViewModel {
     }
 
     /**
-     * @param mixed $endTime
+     * @param string $endTime
+     * @return $this
      */
-    public function setEndTime($endTime)
+    public function setEndTime(string $endTime)
     {
         $this->endTime = $endTime;
         return $this;
@@ -94,9 +104,10 @@ class ConferenceViewModel {
     }
 
     /**
-     * @param mixed $startTime
+     * @param string $startTime
+     * @return $this
      */
-    public function setStartTime($startTime)
+    public function setStartTime(string $startTime)
     {
         $this->startTime = $startTime;
         return $this;
@@ -111,9 +122,10 @@ class ConferenceViewModel {
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
+     * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
         return $this;
@@ -129,9 +141,10 @@ class ConferenceViewModel {
     }
 
     /**
-     * @param mixed $creatorName
+     * @param string $creatorName
+     * @return $this
      */
-    public function setCreatorName($creatorName)
+    public function setCreatorName(string $creatorName)
     {
         $this->creatorName = $creatorName;
         return $this;
@@ -146,9 +159,10 @@ class ConferenceViewModel {
     }
 
     /**
-     * @param mixed $hallsName
+     * @param string $hallsName
+     * @return $this
      */
-    public function setHallsName($hallsName)
+    public function setHallsName(string $hallsName)
     {
         $this->hallsName = $hallsName;
         return $this;
@@ -163,9 +177,10 @@ class ConferenceViewModel {
     }
 
     /**
-     * @param mixed $numberOfBreaks
+     * @param int $numberOfBreaks
+     * @return $this
      */
-    public function setNumberOfBreaks($numberOfBreaks)
+    public function setNumberOfBreaks(int $numberOfBreaks)
     {
         $this->numberOfBreaks = $numberOfBreaks;
         return $this;
@@ -180,9 +195,10 @@ class ConferenceViewModel {
     }
 
     /**
-     * @param mixed $statusName
+     * @param string $statusName
+     * @return $this
      */
-    public function setStatusName($statusName)
+    public function setStatusName(string $statusName)
     {
         $this->statusName = $statusName;
         return $this;

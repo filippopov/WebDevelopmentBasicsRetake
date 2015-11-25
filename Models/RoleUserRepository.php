@@ -46,19 +46,32 @@ class RoleUserRepository {
         return self::$inst;
     }
 
-    public function filterByUserId($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterByUserId(int $id){
         $this->where .=" AND ur.user_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function filterByRoleId($id){
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function filterByRoleId(int $id){
         $this->where .=" AND ur.role_id = ?";
         $this->placeholders[] = $id;
         return $this;
     }
 
-    public function deleteFilter($userId,$roleId){
+    /**
+     * @param int $userId
+     * @param int $roleId
+     * @return $this
+     */
+    public function deleteFilter(int $userId,int $roleId){
         $this->where .=" AND user_id = ? AND role_id = ?";
         $this->placeholders[] = $userId;
         $this->placeholders[] = $roleId;
@@ -136,6 +149,9 @@ join users u on u.id = ur.user_id" . $this->where .$this->order ." LIMIT 1";
         return $result->rowCount() > 0;
     }
 
+    /**
+     * @param RoleUserBindingModel $model
+     */
     public static function add(RoleUserBindingModel $model){
 
         self::$insertObjectPool[] = $model;
@@ -151,7 +167,10 @@ join users u on u.id = ur.user_id" . $this->where .$this->order ." LIMIT 1";
         return true;
     }
 
-
+    /**
+     * @param RoleUserBindingModel $model
+     * @throws \Exception
+     */
     private static function insert(RoleUserBindingModel $model){
 
         $db = Database::getInstance('app');

@@ -23,7 +23,7 @@ class Database
      * @return Database
      * @throws \Exception
      */
-    public static function getInstance($instanceName = 'default') {
+    public static function getInstance(string $instanceName = 'default') {
         if (!isset(self::$inst[$instanceName])) {
             throw new \Exception('Instance with that name was not set');
         }
@@ -31,12 +31,21 @@ class Database
         return self::$inst[$instanceName];
     }
 
+    /**
+     * @param string $instanceName
+     * @param string $driver
+     * @param string $user
+     * @param string $pass
+     * @param string $dbName
+     * @param null $host
+     * @throws \Exception
+     */
     public static function setInstance(
-        $instanceName,
-        $driver,
-        $user,
-        $pass,
-        $dbName,
+       string $instanceName,
+       string $driver,
+       string $user,
+       string $pass,
+       string $dbName,
         $host = null
     ) {
         $driver = DriverFactory::create($driver, $user, $pass, $dbName, $host);
@@ -55,14 +64,14 @@ class Database
      * @param array $driverOptions
      * @return Statement
      */
-    public function prepare($statement, array $driverOptions = [])
+    public function prepare(string $statement, array $driverOptions = [])
     {
         $statement = $this->db->prepare($statement, $driverOptions);
 
         return new Statement($statement);
     }
 
-    public function query($query)
+    public function query(string $query)
     {
         $this->db->query($query);
     }
@@ -101,7 +110,15 @@ class Statement
         return $this->stmt->fetchAll($fetchStyle);
     }
 
-    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null, $driverOptions = null)
+    /**
+     * @param string $parameter
+     * @param $variable
+     * @param int $dataType
+     * @param null $length
+     * @param null $driverOptions
+     * @return bool
+     */
+    public function bindParam(string $parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null, $driverOptions = null)
     {
         return $this->stmt->bindParam($parameter, $variable, $dataType, $length, $driverOptions);
     }

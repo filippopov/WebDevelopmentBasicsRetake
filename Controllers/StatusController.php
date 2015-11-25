@@ -66,12 +66,12 @@ class StatusController extends Controller {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return View
      * @Role(admin)
      * @Authorization()
      */
-    public function editStatus($id){
+    public function editStatus(int $id){
         $status = StatusRepository::create()->filterById($id)->findOne();
 
         $statusViewModel = new StatusViewModel(
@@ -102,11 +102,11 @@ class StatusController extends Controller {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @Role(admin)
      * @Authorization()
      */
-    public function delete($id){
+    public function delete(int $id){
         StatusRepository::create()->filterById($id)->delete();
     }
 

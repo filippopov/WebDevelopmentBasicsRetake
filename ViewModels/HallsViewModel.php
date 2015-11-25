@@ -14,7 +14,12 @@ class HallsViewModel {
     private $name;
     private $capacity;
 
-    function __construct($name, $capacity, $id=null )
+    /**
+     * @param string $name
+     * @param int $capacity
+     * @param null $id
+     */
+    function __construct(string $name,int $capacity, $id=null )
     {
         $this->setName($name)->setCapacity($capacity)->setId($id);
     }
@@ -29,9 +34,10 @@ class HallsViewModel {
     }
 
     /**
-     * @param mixed $capacity
+     * @param int $capacity
+     * @return $this
      */
-    public function setCapacity($capacity)
+    public function setCapacity(int $capacity)
     {
         $this->capacity = $capacity;
         return $this;
@@ -46,7 +52,8 @@ class HallsViewModel {
     }
 
     /**
-     * @param mixed $id
+     * @param $id
+     * @return $this
      */
     public function setId($id)
     {
@@ -63,9 +70,10 @@ class HallsViewModel {
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
+     * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
         return $this;

@@ -68,12 +68,12 @@ class HallsController extends Controller {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return View
      * @Role(admin)
      * @Authorization()
      */
-    public function editHall($id){
+    public function editHall(int $id){
         $hall = HallsRepository::create()->filterById($id)->findOne();
 
         $hallViewModel = new HallsViewModel(
@@ -106,11 +106,11 @@ class HallsController extends Controller {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @Role(admin)
      * @Authorization()
      */
-    public function delete($id){
+    public function delete(int $id){
         HallsRepository::create()->filterById($id)->delete();
     }
 

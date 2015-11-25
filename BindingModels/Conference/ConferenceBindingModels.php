@@ -25,7 +25,17 @@ class ConferenceBindingModels {
     private $hallsId;
     private $statusId;
 
-    function __construct($name,$creatorId,$startTime,$endTime,$breaks,$hallsId, $statusId,$id=null)
+    /**
+     * @param string $name
+     * @param int $creatorId
+     * @param string $startTime
+     * @param string $endTime
+     * @param int $breaks
+     * @param int $hallsId
+     * @param int $statusId
+     * @param null $id
+     */
+    function __construct(string $name,int $creatorId,string $startTime,string $endTime,int $breaks,int $hallsId,int $statusId, $id=null)
     {
         $this->breaks = $breaks;
         $this->statusId = $statusId;
@@ -46,9 +56,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $statusId
+     * @param int $statusId
      */
-    public function setStatusId($statusId)
+    public function setStatusId(int $statusId)
     {
         $this->statusId = $statusId;
     }
@@ -62,9 +72,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $startTime
+     * @param string $startTime
      */
-    public function setStartTime($startTime)
+    public function setStartTime(string $startTime)
     {
         $this->startTime = $startTime;
     }
@@ -78,9 +88,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -94,9 +104,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $id
+     * @param $id
      */
-    public function setId($id)
+    public function setId( $id)
     {
         $this->id = $id;
     }
@@ -110,9 +120,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $hallsId
+     * @param int $hallsId
      */
-    public function setHallsId($hallsId)
+    public function setHallsId(int $hallsId)
     {
         $this->hallsId = $hallsId;
     }
@@ -126,9 +136,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $endTime
+     * @param string $endTime
      */
-    public function setEndTime($endTime)
+    public function setEndTime(string $endTime)
     {
         $this->endTime = $endTime;
     }
@@ -142,9 +152,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $breaks
+     * @param int $breaks
      */
-    public function setBreaks($breaks)
+    public function setBreaks(int $breaks)
     {
         $this->breaks = $breaks;
     }
@@ -158,9 +168,9 @@ class ConferenceBindingModels {
     }
 
     /**
-     * @param mixed $creatorId
+     * @param int $creatorId
      */
-    public function setCreatorId($creatorId)
+    public function setCreatorId(int $creatorId)
     {
         $this->creatorId = $creatorId;
     }

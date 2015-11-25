@@ -16,7 +16,11 @@ class ConferenceUserBindingModel {
     private $userId;
     private $conferenceId;
 
-    function __construct($userId, $conferenceId)
+    /**
+     * @param int $userId
+     * @param int $conferenceId
+     */
+    function __construct(int $userId,int  $conferenceId)
     {
         $this->conferenceId = $conferenceId;
         $this->userId = $userId;
@@ -32,9 +36,9 @@ class ConferenceUserBindingModel {
     }
 
     /**
-     * @param mixed $conferenceId
+     * @param int $conferenceId
      */
-    public function setConferenceId($conferenceId)
+    public function setConferenceId(int $conferenceId)
     {
         $this->conferenceId = $conferenceId;
     }
@@ -48,9 +52,9 @@ class ConferenceUserBindingModel {
     }
 
     /**
-     * @param mixed $userId
+     * @param int $userId
      */
-    public function setUserId($userId)
+    public function setUserId(int $userId)
     {
         $this->userId = $userId;
     }

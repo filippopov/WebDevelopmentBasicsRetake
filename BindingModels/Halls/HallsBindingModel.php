@@ -18,7 +18,12 @@ class HallsBindingModel {
     private $capacity;
     private $id;
 
-    function __construct($name,$capacity,$id=null)
+    /**
+     * @param string $name
+     * @param int $capacity
+     * @param null $id
+     */
+    function __construct(string $name,int $capacity,$id=null)
     {
         $this->capacity = $capacity;
         $this->name = $name;
@@ -26,7 +31,7 @@ class HallsBindingModel {
     }
 
     /**
-     * @return null
+     * @return mixed
      */
     public function getId()
     {
@@ -34,7 +39,7 @@ class HallsBindingModel {
     }
 
     /**
-     * @param null $id
+     * @param $id
      */
     public function setId($id)
     {
@@ -50,9 +55,9 @@ class HallsBindingModel {
     }
 
     /**
-     * @param mixed $capacity
+     * @param int $capacity
      */
-    public function setCapacity($capacity)
+    public function setCapacity(int $capacity)
     {
         $this->capacity = $capacity;
     }
@@ -66,9 +71,9 @@ class HallsBindingModel {
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }

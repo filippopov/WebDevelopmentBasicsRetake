@@ -18,14 +18,21 @@ class UserBindingModel {
     private $password;
     private $id;
 
-    function __construct($username, $password, $id=null)
+    /**
+     * @param string $username
+     * @param string $password
+     * @param null $id
+     */
+    function __construct(string $username, string $password, $id=null)
     {
         $this->id = $id;
         $this->password = $password;
         $this->username = $username;
     }
 
-
+    /**
+     * @return mixed
+     */
     public function getUsername() {
         return $this->username;
     }
@@ -39,25 +46,37 @@ class UserBindingModel {
     }
 
     /**
-     * @param mixed $id
+     * @param $id
      */
     public function setId($id)
     {
         $this->id = $id;
     }
 
-    public function setUsername($value) {
+    /**
+     * @param string $value
+     */
+    public function setUsername(string $value) {
         $this->username = $value;
     }
 
+    /**
+     * @return string|string
+     */
     public function getPassword() {
         return $this->password;
     }
 
-    public function setPassword($value) {
+    /**
+     * @param string $value
+     */
+    public function setPassword(string $value) {
         $this->password = $value;
     }
 
+    /**
+     * @return bool
+     */
     public function isValid() {
         $validUsername = strlen($this->username) >= 5;
         $validPassword = strlen($this->password) >= 5;

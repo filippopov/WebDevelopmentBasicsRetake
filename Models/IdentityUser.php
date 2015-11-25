@@ -44,7 +44,7 @@ class IdentityUser {
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return $this
      */
     public function filterById($id){
@@ -54,31 +54,31 @@ class IdentityUser {
     }
 
     /**
-     * @param $username
+     * @param string $username
      * @return $this
      */
-    public function filterByUsername($username){
+    public function filterByUsername(string $username){
         $this->where .=" AND username = ?";
         $this->placeholders[] = $username;
         return $this;
     }
 
     /**
-     * @param $password
+     * @param string $password
      * @return $this
      */
-    public function filterByPassword($password){
+    public function filterByPassword(string $password){
         $this->where .=" AND password = ?";
         $this->placeholders[] = $password;
         return $this;
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function orderBy($column){
+    public function orderBy(string $column){
         if(!$this->isColumnAllowed($column)){
             throw new \Exception("Column not found");
         }
@@ -91,11 +91,11 @@ class IdentityUser {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function orderByDescending($column){
+    public function orderByDescending(string $column){
         if(!$this->isColumnAllowed($column)){
             throw new \Exception("Column not found");
         }
@@ -110,11 +110,11 @@ class IdentityUser {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function thenBy($column){
+    public function thenBy(string $column){
         if(empty($this->order)){
             throw new \Exception("Cannot do secondary order, because you don't have a primary order");
         }
@@ -129,11 +129,11 @@ class IdentityUser {
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      * @throws \Exception
      */
-    public function thenByDescending($column){
+    public function thenByDescending(string $column){
         if(empty($this->order)){
             throw new \Exception("Cannot do secondary order, because you don't have a primary order");
         }
@@ -209,21 +209,11 @@ class IdentityUser {
         return $result->rowCount() > 0;
     }
 
-//    public function insertAdmin($userId, $roleId){
-//        $db = Database::getInstance('app');
-//
-//        $this->query = "INSERT INTO users_roles (user_id, role_id) VALUES (?, ?)";
-//        $result = $db->prepare($this->query);
-//        $result->execute(
-//            [
-//                $userId,
-//                $roleId
-//            ]
-//        );
-//
-//        return $result->rowCount() > 0;
-//    }
-
+    /**
+     * @param UserBindingModel $model
+     * @return mixed
+     * @throws \Exception
+     */
     public function login(UserBindingModel $model)
     {
         $db = Database::getInstance('app');
@@ -246,6 +236,10 @@ class IdentityUser {
         throw new \Exception('Invalid credentials');
     }
 
+    /**
+     * @param UserBindingModel $user
+     * @throws \Exception
+     */
     public static function add(UserBindingModel $user){
         if($user->getId()){
             throw new \Exception('This entity is not new');
@@ -272,6 +266,10 @@ class IdentityUser {
         return true;
     }
 
+    /**
+     * @param User $user
+     * @throws \Exception
+     */
     private static function update(User $user){
         $db = Database::getInstance('app');
         $query = "UPDATE users SET username = ?, password = ? WHERE id = ?";
@@ -285,6 +283,10 @@ class IdentityUser {
         );
     }
 
+    /**
+     * @param UserBindingModel $user
+     * @throws \Exception
+     */
     private static function insert(UserBindingModel $user){
 
         $db = Database::getInstance('app');
@@ -298,14 +300,23 @@ class IdentityUser {
         );
     }
 
-    private function isColumnAllowed($column){
+    /**
+     * @param string $column
+     * @return bool
+     */
+    private function isColumnAllowed(string $column){
         $refc = new \ReflectionClass('MVC\BindingModels\Users\UserBindingModel');
         $consts = $refc->getConstants();
 
         return in_array($column, $consts);
     }
 
-    public function exists($username)
+    /**
+     * @param string $username
+     * @return bool
+     * @throws \Exception
+     */
+    public function exists(string $username)
     {
         $db = Database::getInstance('app');
 
@@ -315,6 +326,11 @@ class IdentityUser {
         return $result->rowCount() > 0;
     }
 
+    /**
+     * @param $userId
+     * @return mixed
+     * @throws \Exception
+     */
     public function inRole($userId){
         $db = Database::getInstance('app');
 

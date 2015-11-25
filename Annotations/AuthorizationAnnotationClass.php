@@ -35,7 +35,6 @@ class AuthorizationAnnotationClass extends BaseAnnotationClass {
     }
 
 
-
     public function matchAnnotation(){
         $nameArray = explode(DIRECTORY_SEPARATOR,self::getClassName());
         $name  = $nameArray[2];

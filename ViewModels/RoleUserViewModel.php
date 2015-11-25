@@ -16,7 +16,13 @@ class RoleUserViewModel {
     private $roleId;
     private $username;
 
-    function __construct($userId, $roleId, $roleName, $username)
+    /**
+     * @param string $userId
+     * @param string $roleId
+     * @param string $roleName
+     * @param string $username
+     */
+    function __construct(string $userId,string $roleId,string $roleName,string $username)
     {
         $this->setUserId($userId)->setRoleId($roleId)->setRoleName($roleName)->setUsername($username);
     }
@@ -31,9 +37,10 @@ class RoleUserViewModel {
     }
 
     /**
-     * @param mixed $roleId
+     * @param string $roleId
+     * @return $this
      */
-    public function setRoleId($roleId)
+    public function setRoleId(string $roleId)
     {
         $this->roleId = $roleId;
         return $this;
@@ -48,9 +55,10 @@ class RoleUserViewModel {
     }
 
     /**
-     * @param mixed $roleName
+     * @param string $roleName
+     * @return $this
      */
-    public function setRoleName($roleName)
+    public function setRoleName(string $roleName)
     {
         $this->roleName = $roleName;
         return $this;
@@ -65,9 +73,10 @@ class RoleUserViewModel {
     }
 
     /**
-     * @param mixed $userId
+     * @param string $userId
+     * @return $this
      */
-    public function setUserId($userId)
+    public function setUserId(string $userId)
     {
         $this->userId = $userId;
         return $this;
@@ -82,9 +91,10 @@ class RoleUserViewModel {
     }
 
     /**
-     * @param mixed $username
+     * @param string $username
+     * @return $this
      */
-    public function setUsername($username)
+    public function setUsername(string $username)
     {
         $this->username = $username;
         return $this;

@@ -16,7 +16,13 @@ class LectorConferenceViewModel {
     private $lectorName;
     private $conferenceName;
 
-    function __construct($lectorName, $conferenceName, $conferenceId, $lectorId)
+    /**
+     * @param string $lectorName
+     * @param string $conferenceName
+     * @param string $conferenceId
+     * @param string $lectorId
+     */
+    function __construct(string $lectorName,string $conferenceName, string $conferenceId,string $lectorId)
     {
         $this->setLectorName($lectorName)->setConferenceName($conferenceName)->setConferenceId($conferenceId)->setLectorId($lectorId);
     }
@@ -31,9 +37,10 @@ class LectorConferenceViewModel {
     }
 
     /**
-     * @param mixed $conferenceId
+     * @param string $conferenceId
+     * @return $this
      */
-    public function setConferenceId($conferenceId)
+    public function setConferenceId(string $conferenceId)
     {
         $this->conferenceId = $conferenceId;
         return $this;
@@ -48,9 +55,10 @@ class LectorConferenceViewModel {
     }
 
     /**
-     * @param mixed $lectorName
+     * @param string $lectorName
+     * @return $this
      */
-    public function setLectorName($lectorName)
+    public function setLectorName(string $lectorName)
     {
         $this->lectorName = $lectorName;
         return $this;
@@ -65,9 +73,10 @@ class LectorConferenceViewModel {
     }
 
     /**
-     * @param mixed $lectorId
+     * @param string $lectorId
+     * @return $this
      */
-    public function setLectorId($lectorId)
+    public function setLectorId(string $lectorId)
     {
         $this->lectorId = $lectorId;
         return $this;
@@ -82,9 +91,10 @@ class LectorConferenceViewModel {
     }
 
     /**
-     * @param mixed $conferenceName
+     * @param string $conferenceName
+     * @return $this
      */
-    public function setConferenceName($conferenceName)
+    public function setConferenceName(string $conferenceName)
     {
         $this->conferenceName = $conferenceName;
         return $this;

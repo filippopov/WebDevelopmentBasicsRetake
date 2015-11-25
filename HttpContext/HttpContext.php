@@ -83,10 +83,17 @@ class HttpContext {
         $_COOKIE[$this->getCookie()] = $this->getValueCookie();
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function takeCookie($value){
         return $_COOKIE[$value];
     }
 
+    /**
+     * @param $value
+     */
     public function deleteCookie($value){
         $_COOKIE[$value] = null;
     }
@@ -127,18 +134,29 @@ class HttpContext {
         return $this;
     }
 
+
     public function saveSession(){
         $_SESSION[$this->getSession()] = $this->getSessionValue();
     }
 
+    /**
+     * @param string $value
+     * @return mixed
+     */
     public function takeSession(string $value){
         return $_SESSION[$value];
     }
 
+    /**
+     * @param string $value
+     */
     public function deleteSession(string $value){
         $_SESSION[$value] = null;
     }
 
+    /**
+     * @return \MVC\ViewModels\User
+     */
     public function getIdentity(){
         $user = IdentityUser::create()->filterById($_SESSION['id'])->findOne();
 

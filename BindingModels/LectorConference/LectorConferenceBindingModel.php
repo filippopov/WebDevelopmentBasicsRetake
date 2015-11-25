@@ -13,7 +13,11 @@ class LectorConferenceBindingModel {
     private $lectorId;
     private $conferenceId;
 
-    function __construct($lectorId, $conferenceId)
+    /**
+     * @param int $lectorId
+     * @param int $conferenceId
+     */
+    function __construct(int $lectorId,int $conferenceId)
     {
         $this->conferenceId = $conferenceId;
         $this->lectorId = $lectorId;
@@ -29,9 +33,9 @@ class LectorConferenceBindingModel {
     }
 
     /**
-     * @param mixed $conferenceId
+     * @param int $conferenceId
      */
-    public function setConferenceId($conferenceId)
+    public function setConferenceId(int $conferenceId)
     {
         $this->conferenceId = $conferenceId;
     }
@@ -45,9 +49,9 @@ class LectorConferenceBindingModel {
     }
 
     /**
-     * @param mixed $lectorId
+     * @param int $lectorId
      */
-    public function setLectorId($lectorId)
+    public function setLectorId(int $lectorId)
     {
         $this->lectorId = $lectorId;
     }

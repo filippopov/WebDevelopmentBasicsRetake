@@ -12,7 +12,12 @@ class Application
     const CONTROLLERS_NAMESPACE = 'MVC\\Controllers\\';
     const CONTROLLERS_SUFFIX = 'Controller';
 
-    public function __construct($controllerName, $actionName, $requestParams = [])
+    /**
+     * @param string $controllerName
+     * @param string $actionName
+     * @param array $requestParams
+     */
+    public function __construct(string $controllerName, string $actionName, array $requestParams = [])
     {
         $this->controllerName = $controllerName;
         $this->actionName = $actionName;
