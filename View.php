@@ -35,11 +35,11 @@ class View
     private function initModelOnly($model)
     {
         require self::VIEW_FOLDER
-                . DIRECTORY_SEPARATOR
-                . self::$controllerName
-                . DIRECTORY_SEPARATOR
-                . self::$actionName
-                . self::VIEW_EXTENSION;
+            . DIRECTORY_SEPARATOR
+            . self::$controllerName
+            . DIRECTORY_SEPARATOR
+            . self::$actionName
+            . self::VIEW_EXTENSION;
     }
 
     /**
@@ -49,9 +49,9 @@ class View
     private function initModelView($view,$model)
     {
         require self::VIEW_FOLDER
-                . DIRECTORY_SEPARATOR
-                . $view
-                . self::VIEW_EXTENSION;
+            . DIRECTORY_SEPARATOR
+            . $view
+            . self::VIEW_EXTENSION;
     }
 
 

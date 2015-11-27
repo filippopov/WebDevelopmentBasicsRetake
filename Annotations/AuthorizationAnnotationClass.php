@@ -42,6 +42,7 @@ class AuthorizationAnnotationClass extends BaseAnnotationClass {
         $controllerName = strtolower($output_array[1]);
         $reflection = new \ReflectionClass(self::getClassName());
         $methods = $reflection->getMethods();
+
         foreach($methods as $method){
 
             if($method->getDocComment()!=false){
