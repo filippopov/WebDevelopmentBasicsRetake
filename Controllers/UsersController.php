@@ -145,7 +145,7 @@ class UsersController extends Controller
      */
     public function test(){
 
-        echo("zdrasti");
+        echo phpinfo();
     }
 
 

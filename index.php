@@ -18,6 +18,7 @@ $requestString = strtolower($requestString);
 $requestParams = explode("/", $requestString);
 
 $controller = array_shift($requestParams);
+
 $action = array_shift($requestParams);
 
 \MVC\Core\Database::setInstance(
@@ -30,7 +31,6 @@ $action = array_shift($requestParams);
 );
 $isInRole = \MVC\Models\IdentityUser::create()->inRole($_SESSION['id']);
 $request = $controller.'/'.$action;
-
 
 //LectorConferenceController start
 
