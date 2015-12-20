@@ -106,7 +106,7 @@ class StatusController extends Controller {
      * @Role(admin)
      * @Authorization()
      */
-    public function delete(int $id){
+    public function delete($id){
         StatusRepository::create()->filterById($id)->delete();
     }
 

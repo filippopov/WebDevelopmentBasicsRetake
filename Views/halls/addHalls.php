@@ -1,5 +1,19 @@
+<?php if($model->error === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        An error occurred</div>
+<?php elseif($model->success === true): ?>
+    <div class="alert alert-dismissible alert-success">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        Successfully Add Hall
+    </div>
+<?php endif; ?>
+
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+<script src="https://rawgit.com/jhollingworth/bootstrap-wysihtml5/master/lib/js/jquery-1.7.2.min.js"></script>
+<script src="https://rawgit.com/jhollingworth/bootstrap-wysihtml5/master/lib/js/bootstrap.min.js"></script>
 <?php /** @var \MVC\ViewModels\HallsInformation $model */?>
 
 <div class="row">
@@ -41,9 +55,3 @@
     </div>
     <div class="col-md-2"></div>
 </div>
-
-<?php if($model->error === true): ?>
-    <h2>An error occurred</h2>
-<?php elseif(isset($model->success)): ?>
-    <h2>Successfully Add Hall</h2>
-<?php endif; ?>

@@ -57,9 +57,9 @@ class GenerateTable {
             $this->options.="<tr id=\"tr-{$v->getId()}\">";
             $this->options .= "<td>{$v->getId()}</td>";
             $this->options .= "<td>{$v->getUsername()}</td>";
-            $this->options .= "<td><a href=\"\" class=\"delete\" id=\"{$v->getId()}\">Delete</a></td>";
-            $this->options .= "<td><a href=\"\" class=\"admin-role\" id=\"{$v->getId()}\">Admin Role</a></td>";
-            $this->options .= "<td><a href=\"\" class=\"remove-admin-role\" id=\"{$v->getId()}\">Remove Admin Role</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"confirm btn btn-danger\" id=\"{$v->getId()}-delete\">Delete</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"confirm btn btn-info\" id=\"{$v->getId()}-admin\">Admin Role</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"confirm btn btn-danger\" id=\"{$v->getId()}-remove\">Remove Admin Role</a></td>";
             $this->options.="</tr>";
         }
 
@@ -83,7 +83,7 @@ class GenerateTable {
             $this->options .= "<td>{$v->getNumberOfBreaks()}</td>";
             $this->options .= "<td>{$v->getHallsName()}</td>";
             $this->options .= "<td>{$v->getStatusName()}</td>";
-            $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"confirm btn btn-danger\" id=\"{$v->getId()}\">Delete</a></td>";
             $this->options.="</tr>";
         }
 
@@ -124,7 +124,7 @@ class GenerateTable {
             $this->options .= "<td>{$v->getId()}</td>";
             $this->options .= "<td><a href=\"http://localhost:8004/Web-Development-Basics-Retake/halls/edithall/{$v->getId()}\">{$v->getName()}</a></td>";
             $this->options .= "<td>{$v->getCapacity()}</td>";
-            $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"confirm btn btn-danger\"  id=\"{$v->getId()}\">Delete</a></td>";
             $this->options.="</tr>";
         }
 
@@ -191,8 +191,8 @@ class GenerateTable {
         foreach($content as $v){
             $this->options.="<tr>";
             $this->options .= "<td>{$v->getUserName()}</td>";
-            $this->options .= "<td><a href=\"\" class=\"add\" id=\"{$v->getUserId()}-{$v->getConferenceId()}\">Add as lector</a></td>";
-            $this->options .= "<td><a href=\"\" class=\"remove\" id=\"{$v->getUserId()}-{$v->getConferenceId()}\">Remove as lector</a></td>";
+            $this->options .= "<td><a href=\"\"  class=\"confirm btn btn-success\" id=\"{$v->getUserId()}-{$v->getConferenceId()}-add\">Add as lector</a></td>";
+            $this->options .= "<td><a href=\"\"  class=\"confirm btn btn-danger\" id=\"{$v->getUserId()}-{$v->getConferenceId()}-remove\">Remove as lector</a></td>";
             $this->options.="</tr>";
         }
 
@@ -211,7 +211,7 @@ class GenerateTable {
             $this->options.="<tr id=\"tr-{$v->getId()}\">";
             $this->options .= "<td>{$v->getId()}</td>";
             $this->options .= "<td><a href=\"http://localhost:8004/Web-Development-Basics-Retake/status/editstatus/{$v->getId()}\">{$v->getName()}</a></td>";
-            $this->options .= "<td><a href=\"\" id=\"{$v->getId()}\">Delete</a></td>";
+            $this->options .= "<td><a href=\"\" class=\"confirm btn btn-danger\" id=\"{$v->getId()}\">Delete</a></td>";
             $this->options.="</tr>";
         }
 

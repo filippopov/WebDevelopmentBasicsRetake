@@ -32,6 +32,13 @@ $action = array_shift($requestParams);
 $isInRole = \MVC\Models\IdentityUser::create()->inRole($_SESSION['id']);
 $request = $controller.'/'.$action;
 
+//CommentsController
+$commentsControllerAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\CommentsController");
+$configCommentController = $commentsControllerAuthorization->matchAnnotation();
+if($configCommentController[$request]){
+    checkUserId();
+}
+
 //LectorConferenceController start
 
 $lectorConfAuthorization = new \MVC\Annotations\AuthorizationAnnotationClass("MVC\Controllers\LectorConferenceController");

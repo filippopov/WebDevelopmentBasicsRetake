@@ -159,7 +159,6 @@ class HttpContext {
      */
     public function getIdentity(){
         $user = IdentityUser::create()->filterById($_SESSION['id'])->findOne();
-
         return $user;
     }
 } 

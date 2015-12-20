@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://rawgit.com/myclabs/jquery.confirm/master/jquery.confirm.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <div class="container">
     <div class="tab-content">
@@ -47,34 +49,43 @@
 
 <div id="content"></div>
 
-<script>
-    $('.add').click(function(e){
-        var allId = $(this).attr('id');
-        var result =allId.split('-')
-        var lectorId = result[0];
-        var conferenceId = result[1];
-
-        $.ajax({
-            url:'http://localhost:8004/Web-Development-Basics-Retake/lectorconference/addLector/'+lectorId +'/'+conferenceId,
-            method:"POST"
-        }).done(function(data){
-            $('#content').text("Success");
-        })
-    })
-</script>
 
 <script>
-    $('.remove').click(function(e){
-        var allId = $(this).attr('id');
-        var result =allId.split('-')
-        var lectorId = result[0];
-        var conferenceId = result[1];
+    $(".confirm").confirm({
+        text: "Are you sure?",
+        title: "Confirmation required",
 
-        $.ajax({
-            url:'http://localhost:8004/Web-Development-Basics-Retake/lectorconference/removeLector/'+lectorId +'/'+conferenceId,
-            method:"POST"
-        }).done(function(data){
-            $('#content').text("Success");
-        })
-    })
+        confirm: function(button) {
+            var allId = $(button).attr('id');
+            var result =allId.split('-')
+            var lectorId = result[0];
+            var conferenceId = result[1];
+            var url = result[2];
+            var link;
+            if(url=='add'){
+                link = 'http://localhost:8004/Web-Development-Basics-Retake/lectorconference/addLector/'+lectorId +'/'+conferenceId;
+            }
+            else if(url=='remove'){
+                link = 'http://localhost:8004/Web-Development-Basics-Retake/lectorconference/removeLector/'+lectorId +'/'+conferenceId;
+            }
+            $.ajax({
+                url:link,
+                method:"POST"
+            }).always(function() {
+                location.reload();
+            });
+        },
+        cancel: function(button) {
+            // nothing to do
+        },
+        confirmButton: "Yes I am",
+        cancelButton: "No",
+        post: true,
+        confirmButtonClass: "btn-danger",
+        cancelButtonClass: "btn-default",
+        dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+    });
 </script>
+
+
+

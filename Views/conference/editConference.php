@@ -1,6 +1,28 @@
+<?php if($model[3]->error === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        An error occurred</div>
+<?php elseif($model[3]->success === true): ?>
+    <div class="alert alert-dismissible alert-success">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        Successfully Edit Conference
+    </div>
+<?php elseif($model[3]->currentTimeError === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        You can't edit this conference because start time is before current time</div>
+<?php elseif($model[3]->timeError === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        You can't edit this conference because end time is before start time</div>
+<?php endif; ?>
+
+
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
 <link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css"/>
+<script src="https://rawgit.com/jhollingworth/bootstrap-wysihtml5/master/lib/js/bootstrap.min.js"></script>
 
 <div class="container">
     <div class="row">
@@ -118,13 +140,5 @@
 
 
 
-<?php if($model[3]->error === true): ?>
-    <h2>An error occurred</h2>
-<?php elseif($model[3]->success === true): ?>
-    <h2>Successfully Edit Conference</h2>
-<?php elseif($model[3]->currentTimeError === true): ?>
-    <h2>You can't edit this conference because start time is before current time</h2>
-<?php elseif($model[3]->timeError === true): ?>
-    <h2>You can't add this conference because end time is before start time</h2>
-<?php endif; ?>
+
 

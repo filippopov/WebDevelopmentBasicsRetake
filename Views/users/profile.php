@@ -42,6 +42,7 @@
                 <li><a href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/allconferencesofoneuser">Your Conferences</a></li>
                 <li><a href="http://localhost:8004/Web-Development-Basics-Retake/halls/allhalls">Halls</a></li>
                 <li><a href="http://localhost:8004/Web-Development-Basics-Retake/status/allstatus">Status</a></li>
+                <li><a href="http://localhost:8004/Web-Development-Basics-Retake/comments/allcomments/0">All Comments</a></li>
                 <li><a href="https://github.com/filippopov/WebDevelopmentBasicsRetake"  target="_blank">GitHub Repository</a></li>
 
             </ul>

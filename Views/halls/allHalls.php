@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://rawgit.com/myclabs/jquery.confirm/master/jquery.confirm.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <?php /** @var \MVC\ViewModels\HallsViewModel[] $model */?>
 
 
@@ -29,15 +31,29 @@
     </div>
 </div>
 
-
 <script>
-    $('a').click(function(e){
-        var id = $(this).attr('id')
-        $.ajax({
-            url:'http://localhost:8004/Web-Development-Basics-Retake/halls/delete/'+id,
-            method:"POST"
-        }).done(function(data){
-            $('tr-'+id).remove();
-        })
-    })
+    $(".confirm").confirm({
+        text: "Are you sure you want to delete that hall?",
+        title: "Confirmation required",
+
+        confirm: function(button) {
+            var id = $(button).attr('id');
+            $.ajax({
+                url:'http://localhost:8004/Web-Development-Basics-Retake/halls/delete/'+id,
+                method:"POST"
+            }).always(function() {
+                $('#tr-'+id).remove();
+            });
+        },
+        cancel: function(button) {
+            // nothing to do
+        },
+        confirmButton: "Yes I am",
+        cancelButton: "No",
+        post: true,
+        confirmButtonClass: "btn-danger",
+        cancelButtonClass: "btn-default",
+        dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+    });
 </script>
+

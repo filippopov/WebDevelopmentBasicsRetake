@@ -195,7 +195,7 @@ class StatusRepository {
         $this->query = "DELETE FROM conference_status" . $this->where;
         $result = $db->prepare($this->query);
         $result->execute($this->placeholders);
-
+        var_dump($result);
         return $result->rowCount() > 0;
     }
 

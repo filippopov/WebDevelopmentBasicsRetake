@@ -1,5 +1,30 @@
+<?php if($model->error === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        You are already sign in for this conference</div>
+<?php elseif($model->success === true): ?>
+<div class="alert alert-dismissible alert-success">
+    <button class="close" type="button" data-dismiss="alert">x</button>
+    Successfully sign in for this conference</div>
+<?php elseif($model->creatorError === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        You are create this conference, you can't sign in</div>
+<?php elseif($model->timeCollisionError === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        You are sign in for conference in same time (Collision Error). Check your conferences</div>
+<?php elseif($model->capacityError === true): ?>
+    <div class="alert alert-dismissible alert-danger">
+        <button class="close" type="button" data-dismiss="alert">x</button>
+        Conference is full</div>
+<?php endif; ?>
+
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+<script src="https://rawgit.com/jhollingworth/bootstrap-wysihtml5/master/lib/js/jquery-1.7.2.min.js"></script>
+<script src="https://rawgit.com/jhollingworth/bootstrap-wysihtml5/master/lib/js/bootstrap.min.js"></script>
 <?php /** @var \MVC\ViewModels\ConferenceUserInformation $model */?>
 
 <div class="row">
@@ -28,14 +53,3 @@
 
 
 
-<?php if($model->error === true): ?>
-    <h2>You are already sign in for this conference</h2>
-<?php elseif($model->success === true): ?>
-    <h2>Successfully sign in for this conference</h2>
-<?php elseif($model->creatorError === true): ?>
-    <h2>You are create this conference, you can't sign in</h2>
-<?php elseif($model->timeCollisionError === true): ?>
-    <h2>You are sign in for conference in same time (Collision Error). Check your conferences</h2>
-<?php elseif($model->capacityError === true): ?>
-    <h2>Conference is full</h2>
-<?php endif; ?>
