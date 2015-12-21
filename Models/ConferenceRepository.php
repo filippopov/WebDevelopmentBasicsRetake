@@ -195,6 +195,49 @@ left join conference_status cs on cs.id = c.status_id" . $this->where . $this->o
         return $conferences;
     }
 
+    public function findAllWithPaging($page){
+        $db = Database::getInstance('app');
+
+        $this->query = "select c.id,c.name,c.time_begin, c.time_end, c.number_of_breaks,c.creator_id, u.username as creator_name, h.name as halls_name, cs.name as status_name from conference c
+left join users u on u.id = c.creator_id
+left join halls h on c.halls_id = h.id
+left join conference_status cs on cs.id = c.status_id ORDER BY c.id DESC LIMIT 5 OFFSET $page";
+        $result = $db->prepare($this->query);
+        $result->execute();
+
+        $conferences=[];
+
+        foreach($result->fetchAll() as $conferenceInfo){
+            $conference = new ConferenceViewModel(
+                $conferenceInfo['name'],
+                $conferenceInfo['creator_name'],
+                $conferenceInfo['time_begin'],
+                $conferenceInfo['time_end'],
+                $conferenceInfo['number_of_breaks'],
+                $conferenceInfo['halls_name'],
+                $conferenceInfo['status_name'],
+                $conferenceInfo['id'],
+                $conferenceInfo['creator_id']
+            );
+
+            $conferences[] = $conference;
+        }
+
+        return $conferences;
+    }
+
+    public function counter(){
+        $db = Database::getInstance('app');
+
+        $this->query = "SELECT count(*) as count FROM conference";
+        $result = $db->prepare($this->query);
+        $result->execute();
+
+        $count = $result->fetch();
+
+        return $count;
+    }
+
     /**
      * @return ConferenceViewModel
      * @throws \Exception

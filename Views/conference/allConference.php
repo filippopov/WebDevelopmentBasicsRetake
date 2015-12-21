@@ -19,13 +19,21 @@
 \MVC\ViewHelpers\GenerateTable::create()->create()
     ->addAttribute('class','table table-hover')
     ->setHeaders(['Id','Conference Name','Creator Name','Start Time','End Time','Count of Breaks','Halls Name','Status Name','Delete'])
-    ->setContentConference($model)
+    ->setContentConference($model[0])
     ->render();
 
 ?>
             </div>
             </div>
             </div>
+</div>
+<div class="container">
+    <ul class="pagination">
+        <?php for($i=1;$i<=$model[1];$i++):?>
+            <?php $value = $i-1;?>
+            <li><a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/<?=$value?>"><?=$i?></a></li>
+        <?php endfor ?>
+    </ul>
 </div>
 
 <script>

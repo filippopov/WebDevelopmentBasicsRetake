@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <input type="submit" class="btn btn-danger" name="sign-out" value="Sign-Out" id="sign-out"/>
-                            <a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/" type="button" class="btn btn-success">Back to Conferences</a>
+                            <a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/0" type="button" class="btn btn-success">Back to Conferences</a>
                         </div>
                     </div>
                 </form>

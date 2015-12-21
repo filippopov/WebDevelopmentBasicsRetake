@@ -12,7 +12,7 @@
                 <a class="btn btn-success" href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/signinconference/<?=$model[0]->getId()?>">Sign in for the conference</a>
                 <a class="btn btn-danger" href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/signoutconference/<?=$model[0]->getId()?>">Sign out for the conference</a>
                 <a class="btn btn-info" href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/alluserssigninforthisconference/<?=$model[0]->getId()?>">All users sign in for this conference</a>
-                <a class="btn btn-primary" href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference">Back to Conferences</a>
+                <a class="btn btn-primary" href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/0">Back to Conferences</a>
             </p>
             <br/>
             <div class="table-responsive">

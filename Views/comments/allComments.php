@@ -46,7 +46,7 @@
     <ul class="pagination">
 <?php for($i=1;$i<=$model[1];$i++):?>
     <?php $value = $i-1;?>
-    <li><a href="<?=$value?>"><?=$i?></a></li>
+    <li><a href="http://localhost:8004/Web-Development-Basics-Retake/comments/allcomments/<?=$value?>"><?=$i?></a></li>
 <?php endfor ?>
     </ul>
 </div>

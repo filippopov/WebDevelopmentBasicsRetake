@@ -38,7 +38,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference">Conferences</a></li>
+                <li><a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/0">Conferences</a></li>
                 <li><a href="http://localhost:8004/Web-Development-Basics-Retake/conferenceuser/allconferencesofoneuser">Your Conferences</a></li>
                 <li><a href="http://localhost:8004/Web-Development-Basics-Retake/halls/allhalls">Halls</a></li>
                 <li><a href="http://localhost:8004/Web-Development-Basics-Retake/status/allstatus">Status</a></li>

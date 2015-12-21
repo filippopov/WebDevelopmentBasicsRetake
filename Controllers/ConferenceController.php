@@ -24,14 +24,42 @@ use MVC\ViewModels\StatusViewModel;
 
 class ConferenceController extends Controller {
 
+//    /**
+//     * @return View
+//     * @throws \Exception
+//     * @Authorization()
+//     */
+//    public function allConference(){
+//
+//        $conferences = ConferenceRepository::create()->orderBy(ConferenceBindingModels::COL_ID)->findAll();
+//        $conferencesViewModel=[];
+//        foreach($conferences as $conference){
+//            $conferencesViewModel[] = new ConferenceViewModel(
+//                $conference->getName(),
+//                $conference->getCreatorName(),
+//                $conference->getStartTime(),
+//                $conference->getEndTime(),
+//                $conference->getNumberOfBreaks(),
+//                $conference->getHallsName(),
+//                $conference->getStatusName(),
+//                $conference->getId()
+//            ) ;
+//
+//        }
+//        $this->escapeAll($conferencesViewModel);
+//
+//        return new View($conferencesViewModel);
+//    }
+
     /**
      * @return View
      * @throws \Exception
      * @Authorization()
      */
-    public function allConference(){
+    public function allConference($pageIndex){
 
-        $conferences = ConferenceRepository::create()->orderBy(ConferenceBindingModels::COL_ID)->findAll();
+        $page = $pageIndex * 5;
+        $conferences = ConferenceRepository::create()->findAllWithPaging($page);
         $conferencesViewModel=[];
         foreach($conferences as $conference){
             $conferencesViewModel[] = new ConferenceViewModel(
@@ -46,9 +74,14 @@ class ConferenceController extends Controller {
             ) ;
 
         }
-        $this->escapeAll($conferencesViewModel);
+        $count = ConferenceRepository::create()->counter();
+        $number = ceil($count['count']/5);
+        $allModels=[];
+        $allModels[] = $conferencesViewModel;
+        $allModels[] = $number;
+        $this->escapeAll($allModels);
 
-        return new View($conferencesViewModel);
+        return new View($allModels);
     }
 
     /**

@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <input type="submit" class="btn btn-success" name="sign-in" value="Sign-In" id="sign-in"/>
-                            <a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/" type="button" class="btn btn-primary">Back to Conferences</a>
+                            <a href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/0" type="button" class="btn btn-primary">Back to Conferences</a>
                         </div>
                     </div>
                 </form>

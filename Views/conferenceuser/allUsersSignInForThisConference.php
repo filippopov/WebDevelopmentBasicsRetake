@@ -8,7 +8,7 @@
     <div class="tab-content">
         <div class="tab-pane active" id="daftar">
             <br/>
-            <p><a class="btn btn-success"href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference">Back To Conferences</a></p>
+            <p><a class="btn btn-success"href="http://localhost:8004/Web-Development-Basics-Retake/conference/allconference/0">Back To Conferences</a></p>
             <br/>
             <div class="table-responsive">
 <?php
